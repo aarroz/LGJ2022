@@ -1,0 +1,4596 @@
+[gd_scene load_steps=158 format=2]
+
+[ext_resource path="res://scenes/mesh_door.tres" type="CubeMesh" id=1]
+[ext_resource path="res://materials/wall_dark.tres" type="Material" id=2]
+[ext_resource path="res://assets/simple_fpsplayer/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/Door_01.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/System_Door.gd" type="Script" id=5]
+[ext_resource path="res://materials/normals/concrete (1) bm.png" type="Texture" id=6]
+[ext_resource path="res://materials/kenney_prototype_textures/red/texture_07.png" type="Texture" id=7]
+[ext_resource path="res://materials/kenney_prototype_textures/light/texture_01.png" type="Texture" id=8]
+[ext_resource path="res://Environment_Level_00.tres" type="Environment" id=9]
+[ext_resource path="res://materials/box_material.tres" type="Material" id=10]
+[ext_resource path="res://materials/kenney_prototype_textures/green/texture_07.png" type="Texture" id=11]
+[ext_resource path="res://materials/puzzle_base.tres" type="Material" id=12]
+[ext_resource path="res://scripts/Wire_Rotate.gd" type="Script" id=13]
+[ext_resource path="res://sounds/music/Thinking.ogg" type="AudioStream" id=14]
+[ext_resource path="res://scenes/AudioManager.gd" type="Script" id=15]
+[ext_resource path="res://scripts/Finale_Dropper.gd" type="Script" id=16]
+[ext_resource path="res://materials/kenney_prototype_textures/orange/texture_10.png" type="Texture" id=17]
+
+[sub_resource type="Animation" id=31]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Music:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ -80.0 ]
+}
+
+[sub_resource type="Animation" id=32]
+resource_name = "fade_in"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Music:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -30.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=33]
+resource_name = "fade_out"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Music:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -30.0 ]
+}
+
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 0.25, 2.75, 1.5 )
+
+[sub_resource type="Animation" id=5]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Door_First:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 10.5, 2.75, 0 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "open"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Door_First:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 3.605 ),
+"update": 0,
+"values": [ Vector3( 10.5, 2.75, 0 ), Vector3( 10.5, 2.75, -3.1 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=7]
+albedo_texture = ExtResource( 7 )
+normal_enabled = true
+normal_scale = 1.0
+normal_texture = ExtResource( 6 )
+uv1_triplanar = true
+
+[sub_resource type="CylinderShape" id=9]
+height = 0.5
+
+[sub_resource type="SpatialMaterial" id=12]
+albedo_texture = ExtResource( 7 )
+normal_enabled = true
+normal_scale = 1.0
+normal_texture = ExtResource( 6 )
+uv1_triplanar = true
+
+[sub_resource type="SpatialMaterial" id=13]
+albedo_texture = ExtResource( 8 )
+normal_enabled = true
+normal_scale = 1.0
+normal_texture = ExtResource( 6 )
+uv1_triplanar = true
+
+[sub_resource type="CylinderShape" id=14]
+height = 0.5
+
+[sub_resource type="SpatialMaterial" id=45]
+albedo_color = Color( 0, 1, 0, 1 )
+
+[sub_resource type="GDScript" id=11]
+script/source = "extends \"res://scripts/entity_doorwall.gd\"
+
+var open = false
+
+func _on_Button2_body_entered(body):
+	if body.is_in_group(\"dynamic\") and not open:
+		open()
+		open = true
+
+func _on_Button2_body_exited(body):
+	if body.is_in_group(\"dynamic\") and open:
+		close()
+		open = false
+
+
+func _on_Trigger_00_Complete_body_entered(body):
+	if body.is_in_group(\"dynamic\") and open:
+		close()
+		open = false
+"
+
+[sub_resource type="CubeMesh" id=16]
+material = ExtResource( 10 )
+
+[sub_resource type="BoxShape" id=17]
+
+[sub_resource type="GDScript" id=26]
+script/source = "extends \"res://scripts/entity_doorwall.gd\"
+
+enum DOOR_STATE {
+	OPEN
+	CLOSE
+}
+
+var state
+
+func _ready():
+	state = DOOR_STATE.CLOSE
+
+
+func _on_Button3_body_entered(body):
+	if state == DOOR_STATE.CLOSE and $Puzzle_Wire_Rotate.connected and body.is_in_group(\"dynamic\"):
+		$Door_02.open()
+		state = DOOR_STATE.OPEN
+	elif state == DOOR_STATE.CLOSE and body.is_in_group(\"dynamic\"):
+		pass
+	elif state == DOOR_STATE.OPEN:
+		pass
+
+
+func _on_Button3_body_exited(body):
+	if state == DOOR_STATE.CLOSE and $Puzzle_Wire_Rotate.connected:
+		pass
+	elif state == DOOR_STATE.CLOSE and body.is_in_group(\"dynamic\"):
+		pass
+	elif state == DOOR_STATE.OPEN:
+		$Door_02.close()
+		state = DOOR_STATE.CLOSE
+
+
+func _on_Trigger_01_Complete_body_entered(body):
+	if state == DOOR_STATE.OPEN:
+		$Door_02.close()
+		state = DOOR_STATE.CLOSE
+"
+
+[sub_resource type="CylinderMesh" id=20]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 4.5
+radial_segments = 6
+
+[sub_resource type="CylinderMesh" id=19]
+top_radius = 0.2
+bottom_radius = 0.2
+radial_segments = 6
+
+[sub_resource type="CylinderMesh" id=21]
+material = ExtResource( 12 )
+height = 0.1
+
+[sub_resource type="Animation" id=23]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=24]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=25]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="CylinderShape" id=22]
+height = 0.25
+
+[sub_resource type="SpatialMaterial" id=34]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="GDScript" id=41]
+script/source = "extends \"res://scripts/entity_doorwall.gd\"
+
+enum DOOR_STATE {
+	OPEN
+	CLOSE
+}
+
+var state
+
+func _ready():
+	state = DOOR_STATE.CLOSE
+
+
+func _on_Button3_body_entered(body):
+	if state == DOOR_STATE.CLOSE and $Puzzle_Wire_Rotate.connected and $Puzzle_Wire_Rotate2.connected and body.is_in_group(\"dynamic\"):
+		$Door_02.open()
+		state = DOOR_STATE.OPEN
+	elif state == DOOR_STATE.CLOSE and body.is_in_group(\"dynamic\"):
+		pass
+	elif state == DOOR_STATE.OPEN:
+		pass
+
+
+func _on_Button3_body_exited(body):
+	if state == DOOR_STATE.CLOSE and $Puzzle_Wire_Rotate.connected and $Puzzle_Wire_Rotate2.connected:
+		pass
+	elif state == DOOR_STATE.CLOSE and body.is_in_group(\"dynamic\"):
+		pass
+	elif state == DOOR_STATE.OPEN:
+		$Door_02.close()
+		state = DOOR_STATE.CLOSE
+
+
+func _on_Trigger_01_Complete_body_entered(body):
+	if state == DOOR_STATE.OPEN:
+		$Door_02.close()
+		state = DOOR_STATE.CLOSE
+"
+
+[sub_resource type="CylinderMesh" id=42]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 14.0
+radial_segments = 6
+
+[sub_resource type="Animation" id=35]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=36]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=37]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=43]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="Animation" id=38]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=39]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=40]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=44]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="CylinderMesh" id=54]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 6.0
+radial_segments = 6
+
+[sub_resource type="SpatialMaterial" id=55]
+flags_unshaded = true
+albedo_texture = ExtResource( 11 )
+uv1_triplanar = true
+
+[sub_resource type="CubeMesh" id=56]
+material = SubResource( 55 )
+size = Vector3( 1, 1, 1 )
+
+[sub_resource type="GDScript" id=57]
+script/source = "extends Interactable
+
+onready var solve_light = $Puzzle_01_Indicator_01
+
+var connected = false
+
+func _ready():
+	connected = true
+	$AnimationPlayer.play(\"state_active\")
+	solve_light.material.set_albedo(Color(0, 255, 0, 0))
+
+func interact():
+	if not connected:
+		connected = true
+		print(\"connected\")
+		$AnimationPlayer.play(\"state_active\")
+		solve_light.material.set_albedo(Color(0, 255, 0, 0))
+	elif connected:
+		connected = false
+		print(\"disconnected\")
+		$AnimationPlayer.play_backwards(\"state_active\")
+		solve_light.material.set_albedo(Color(255, 0, 0, 0))
+"
+
+[sub_resource type="Animation" id=46]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=47]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=48]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=52]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="Animation" id=49]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=50]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=51]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=53]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="GDScript" id=69]
+script/source = "extends \"res://scripts/entity_doorwall.gd\"
+
+enum DOOR_STATE {
+	OPEN
+	CLOSE
+}
+
+var state
+
+func _ready():
+	state = DOOR_STATE.CLOSE
+
+
+func _on_Button3_body_entered(body):
+	if state == DOOR_STATE.CLOSE and $Puzzle_Wire_Rotate.connected and $Puzzle_Wire_Rotate2.connected and $Puzzle_Wire_Rotate3.connected and body.is_in_group(\"dynamic\"):
+		$Door_02.open()
+		state = DOOR_STATE.OPEN
+	elif state == DOOR_STATE.CLOSE and body.is_in_group(\"dynamic\"):
+		pass
+	elif state == DOOR_STATE.OPEN:
+		pass
+
+
+func _on_Button3_body_exited(body):
+	if state == DOOR_STATE.CLOSE and $Puzzle_Wire_Rotate.connected and $Puzzle_Wire_Rotate2.connected and $Puzzle_Wire_Rotate3.connected:
+		pass
+	elif state == DOOR_STATE.CLOSE and body.is_in_group(\"dynamic\"):
+		pass
+	elif state == DOOR_STATE.OPEN:
+		$Door_02.close()
+		state = DOOR_STATE.CLOSE
+
+
+func _on_Trigger_01_Complete_body_entered(body):
+	if state == DOOR_STATE.OPEN:
+		$Door_02.close()
+		state = DOOR_STATE.CLOSE
+"
+
+[sub_resource type="CylinderMesh" id=64]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 3.0
+radial_segments = 6
+
+[sub_resource type="CylinderMesh" id=65]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 7.0
+radial_segments = 6
+
+[sub_resource type="Animation" id=58]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=59]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=60]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=70]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="Animation" id=61]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=62]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=63]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=71]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="Animation" id=66]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=67]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=68]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=72]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="GDScript" id=82]
+script/source = "extends \"res://scripts/entity_doorwall.gd\"
+
+enum DOOR_STATE {
+	OPEN
+	CLOSE
+}
+
+var state
+
+func _ready():
+	state = DOOR_STATE.CLOSE
+
+
+func _on_Button3_body_entered(body):
+	if state == DOOR_STATE.CLOSE and $Puzzle_Wire_Rotate.connected and $Puzzle_Wire_Rotate2.connected and $Puzzle_Wire_Rotate3.connected and body.is_in_group(\"dynamic\"):
+		$Door_02.open()
+		state = DOOR_STATE.OPEN
+	elif state == DOOR_STATE.CLOSE and body.is_in_group(\"dynamic\"):
+		pass
+	elif state == DOOR_STATE.OPEN:
+		pass
+
+
+func _on_Button3_body_exited(body):
+	if state == DOOR_STATE.CLOSE and $Puzzle_Wire_Rotate.connected and $Puzzle_Wire_Rotate2.connected and $Puzzle_Wire_Rotate3.connected:
+		pass
+	elif state == DOOR_STATE.CLOSE and body.is_in_group(\"dynamic\"):
+		pass
+	elif state == DOOR_STATE.OPEN:
+		$Door_02.close()
+		state = DOOR_STATE.CLOSE
+
+
+func _on_Trigger_01_Complete_body_entered(body):
+	if state == DOOR_STATE.OPEN:
+		$Door_02.close()
+		state = DOOR_STATE.CLOSE
+"
+
+[sub_resource type="Animation" id=73]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=74]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=75]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=83]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="Animation" id=76]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=77]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=78]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=84]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="Animation" id=79]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=80]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=81]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=85]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="SpatialMaterial" id=86]
+albedo_texture = ExtResource( 17 )
+uv1_triplanar = true
+
+[sub_resource type="CubeMesh" id=3]
+size = Vector3( 1.9, 1.9, 1.9 )
+
+[sub_resource type="BoxShape" id=87]
+extents = Vector3( 0.9, 0.9, 0.9 )
+
+[sub_resource type="BoxShape" id=88]
+extents = Vector3( 2, 8, 10 )
+
+[sub_resource type="BoxShape" id=89]
+
+[sub_resource type="BoxShape" id=90]
+extents = Vector3( 0.001, 6, 10 )
+
+[sub_resource type="BoxShape" id=8]
+extents = Vector3( 2, 1, 1 )
+
+[sub_resource type="GDScript" id=91]
+script/source = "extends \"res://scripts/entity_doorwall.gd\"
+
+enum DOOR_STATE {
+	OPEN
+	CLOSE
+}
+
+var state
+
+func _ready():
+	state = DOOR_STATE.CLOSE
+
+
+func _on_Button3_body_entered(body):
+	if state == DOOR_STATE.CLOSE and $Puzzle_Wire_Rotate.connected and $Puzzle_Wire_Rotate2.connected and $Puzzle_Wire_Rotate3.connected and $Puzzle_Wire_Rotate4.connected and body.is_in_group(\"dynamic\"):
+		$Door_02.open()
+		state = DOOR_STATE.OPEN
+	elif state == DOOR_STATE.CLOSE and body.is_in_group(\"dynamic\"):
+		pass
+	elif state == DOOR_STATE.OPEN:
+		pass
+
+
+func _on_Button3_body_exited(body):
+	if state == DOOR_STATE.CLOSE and $Puzzle_Wire_Rotate.connected and $Puzzle_Wire_Rotate2.connected and $Puzzle_Wire_Rotate3.connected and $Puzzle_Wire_Rotate4.connected:
+		pass
+	elif state == DOOR_STATE.CLOSE and body.is_in_group(\"dynamic\"):
+		pass
+	elif state == DOOR_STATE.OPEN:
+		$Door_02.close()
+		state = DOOR_STATE.CLOSE
+
+
+func _on_Trigger_01_Complete_body_entered(body):
+	if state == DOOR_STATE.OPEN:
+		$Door_02.close()
+		state = DOOR_STATE.CLOSE
+"
+
+[sub_resource type="CylinderMesh" id=101]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 8.0
+radial_segments = 6
+
+[sub_resource type="CylinderMesh" id=102]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 1.0
+radial_segments = 6
+
+[sub_resource type="Animation" id=92]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=93]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=94]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=103]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="Animation" id=95]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=96]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=97]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=104]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="Animation" id=98]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=99]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=100]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=105]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="Animation" id=106]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=107]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=108]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=109]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="GDScript" id=110]
+script/source = "extends \"res://scripts/entity_doorwall.gd\"
+
+enum DOOR_STATE {
+	OPEN
+	CLOSE
+}
+
+var state
+
+func _ready():
+	state = DOOR_STATE.CLOSE
+
+
+func _on_Button3_body_entered(body):
+	if state == DOOR_STATE.CLOSE and $Puzzle_Wire_Rotate.connected and $Puzzle_Wire_Rotate2.connected and $Puzzle_Wire_Rotate3.connected and $Puzzle_Wire_Rotate4.connected and body.is_in_group(\"dynamic\"):
+		$Door_02.open()
+		state = DOOR_STATE.OPEN
+	elif state == DOOR_STATE.CLOSE and body.is_in_group(\"dynamic\"):
+		pass
+	elif state == DOOR_STATE.OPEN:
+		pass
+
+
+func _on_Button3_body_exited(body):
+	if state == DOOR_STATE.CLOSE and $Puzzle_Wire_Rotate.connected and $Puzzle_Wire_Rotate2.connected and $Puzzle_Wire_Rotate3.connected and $Puzzle_Wire_Rotate4.connected:
+		pass
+	elif state == DOOR_STATE.CLOSE and body.is_in_group(\"dynamic\"):
+		pass
+	elif state == DOOR_STATE.OPEN:
+		$Door_02.close()
+		state = DOOR_STATE.CLOSE
+
+
+func _on_Trigger_01_Complete_body_entered(body):
+	if state == DOOR_STATE.OPEN:
+		$Door_02.close()
+		state = DOOR_STATE.CLOSE
+"
+
+[sub_resource type="Animation" id=111]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=112]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=113]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=137]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="Animation" id=114]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=115]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=116]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=138]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="Animation" id=117]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=118]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=119]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=139]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="Animation" id=120]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=121]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=122]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=140]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="GDScript" id=123]
+script/source = "extends \"res://scripts/entity_doorwall.gd\"
+
+enum DOOR_STATE {
+	OPEN
+	CLOSE
+}
+
+enum BUTTON1 {
+	ACTIVE
+	DEACTIVE
+}
+
+enum BUTTON2 {
+	ACTIVE
+	DEACTIVE
+}
+
+var state
+var button_1
+var button_2
+
+func _ready():
+	state = DOOR_STATE.CLOSE
+	button_1 = BUTTON1.DEACTIVE
+	button_2 = BUTTON2.DEACTIVE
+
+
+
+func _on_Button3_body_entered(body):
+	if state == DOOR_STATE.CLOSE and $Puzzle_Wire_Rotate2.connected and $Puzzle_Wire_Rotate3.connected and body.is_in_group(\"dynamic\"):
+		button_1 = BUTTON1.ACTIVE
+		state_change()
+		print(\"button 1 active\")
+	else:
+		pass
+
+
+func _on_Button3_body_exited(body):
+	if body.is_in_group(\"dynamic\"):
+		button_1 = BUTTON1.DEACTIVE
+		state_change()
+		print(\"button 1 deactive\")
+
+
+func _on_Trigger_01_Complete_body_entered(body):
+	if state == DOOR_STATE.OPEN:
+		$Door_02.close()
+		state = DOOR_STATE.CLOSE
+
+
+func _on_Button4_body_entered(body):
+	if $Puzzle_Wire_Rotate.connected and $Puzzle_Wire_Rotate4.connected and body.is_in_group(\"dynamic\"):
+		button_2 = BUTTON2.ACTIVE
+		state_change()
+		print(\"button 2 active\")
+	else:
+		pass
+
+
+func _on_Button4_body_exited(body):
+	if body.is_in_group(\"dynamic\"):
+		button_2 = BUTTON2.DEACTIVE
+		state_change()
+		print(\"button 2 deactive\")
+
+func state_change():
+	if button_1 == BUTTON1.ACTIVE and button_2 == BUTTON2.ACTIVE:
+		state = DOOR_STATE.OPEN
+		$Door_02.open()
+		print(\"DONE\")
+	else:
+		print(\"failed\")
+"
+
+[sub_resource type="GDScript" id=145]
+script/source = "extends Interactable
+
+onready var solve_light = $Puzzle_01_Indicator_01
+
+var connected = false
+
+func _ready():
+	connected = false
+	$AnimationPlayer.play_backwards(\"state_active\")
+	solve_light.material.set_albedo(Color(255, 0, 0, 0))
+
+func interact():
+	if not connected:
+		connected = true
+		print(\"connected\")
+		$AnimationPlayer.play(\"state_active\")
+		solve_light.material.set_albedo(Color(0, 255, 0, 0))
+	elif connected:
+		connected = false
+		print(\"disconnected\")
+		$AnimationPlayer.play_backwards(\"state_active\")
+		solve_light.material.set_albedo(Color(255, 0, 0, 0))
+"
+
+[sub_resource type="Animation" id=124]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=125]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=126]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=141]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="Animation" id=127]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=128]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=129]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=142]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="Animation" id=130]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=131]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=132]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=143]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="Animation" id=133]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=134]
+resource_name = "state_active"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="Animation" id=135]
+resource_name = "state_inactive"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -2.37504e-14, -90, -90 ), Vector3( -2.37504e-14, 6.83019e-06, -90 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=144]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="SpatialMaterial" id=27]
+flags_unshaded = true
+
+[sub_resource type="PlaneMesh" id=136]
+material = SubResource( 27 )
+size = Vector2( 10, 20 )
+
+[sub_resource type="BoxShape" id=10]
+extents = Vector3( 1, 1, 4 )
+
+[sub_resource type="BoxShape" id=29]
+extents = Vector3( 1, 2, 3 )
+
+[sub_resource type="BoxShape" id=30]
+extents = Vector3( 1, 3, 3 )
+
+[node name="Level_00" type="Spatial"]
+
+[node name="AudioManager" type="Spatial" parent="."]
+script = ExtResource( 15 )
+
+[node name="Music" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource( 14 )
+volume_db = -80.0
+bus = "Music"
+
+[node name="Faders" type="AnimationPlayer" parent="AudioManager"]
+anims/RESET = SubResource( 31 )
+anims/fade_in = SubResource( 32 )
+anims/fade_out = SubResource( 33 )
+
+[node name="Level_00_Map" type="CSGCombiner" parent="."]
+material_override = ExtResource( 2 )
+use_in_baked_light = true
+lightmap_scale = 2
+use_collision = true
+
+[node name="level_00_room" type="CSGBox" parent="Level_00_Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0 )
+invert_faces = true
+width = 20.0
+height = 8.0
+depth = 20.0
+
+[node name="level_00_doorway" type="CSGBox" parent="Level_00_Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 2.75, 0 )
+invert_faces = true
+width = 1.0
+height = 5.5
+depth = 3.0
+
+[node name="level_00_roof" type="CSGCylinder" parent="Level_00_Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0 )
+invert_faces = true
+radius = 10.0
+height = 8.0
+sides = 16
+cone = true
+
+[node name="level_00_window" type="CSGSphere" parent="Level_00_Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0 )
+radius = 2.0
+radial_segments = 16
+
+[node name="level_01-04_room" type="CSGBox" parent="Level_00_Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 61, 4, 0 )
+invert_faces = true
+width = 100.0
+height = 8.0
+depth = 20.0
+
+[node name="level_05_room" type="CSGBox" parent="Level_00_Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 125, 4, 0 )
+invert_faces = true
+width = 30.0
+height = 8.0
+depth = 20.0
+
+[node name="level_05to06_hall01" type="CSGBox" parent="Level_00_Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 155, 4, 0 )
+invert_faces = true
+width = 30.0
+height = 8.0
+depth = 8.0
+
+[node name="level_05to06_hall02" type="CSGBox" parent="Level_00_Map"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 174, 4, 26 )
+invert_faces = true
+width = 60.0
+height = 8.0
+depth = 8.0
+
+[node name="level_05to06_hall03" type="CSGBox" parent="Level_00_Map"]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 160, 4, 60 )
+invert_faces = true
+width = 36.0
+height = 8.0
+depth = 8.0
+
+[node name="level_06to07_hall" type="CSGBox" parent="Level_00_Map"]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 99, 4, 60 )
+invert_faces = true
+width = 18.0
+height = 8.0
+depth = 8.0
+
+[node name="level_07to08_hall" type="CSGBox" parent="Level_00_Map"]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 46, 4, 60 )
+invert_faces = true
+width = 20.4252
+height = 8.0
+depth = 8.0
+
+[node name="level_08toFINALE_hall" type="CSGBox" parent="Level_00_Map"]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -16, 4, 60 )
+invert_faces = true
+width = 36.0
+height = 8.0
+depth = 8.0
+
+[node name="FINALE_DOOR" type="CSGBox" parent="Level_00_Map"]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -71, 4, 60 )
+invert_faces = true
+width = 6.24661
+height = 8.0
+depth = 20.0
+
+[node name="level_06_room" type="CSGBox" parent="Level_00_Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 125, 10, 69 )
+invert_faces = true
+width = 34.0
+height = 20.0
+depth = 44.0
+
+[node name="level_07_room" type="CSGBox" parent="Level_00_Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 73, 10, 69 )
+invert_faces = true
+width = 34.0
+height = 20.0
+depth = 44.0
+
+[node name="level_08_room" type="CSGBox" parent="Level_00_Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 10, 69 )
+invert_faces = true
+width = 34.0
+height = 20.0
+depth = 44.0
+
+[node name="level_FINALE_room" type="CSGBox" parent="Level_00_Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51, 10, 61 )
+invert_faces = true
+width = 34.0
+height = 20.0
+depth = 80.0
+
+[node name="Player" parent="." groups=["dynamic"] instance=ExtResource( 3 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 2, 0 )
+
+[node name="System_Door" type="Spatial" parent="."]
+script = ExtResource( 5 )
+
+[node name="Door_First" type="StaticBody" parent="System_Door"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 2.75, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="System_Door/Door_First"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
+mesh = ExtResource( 1 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="System_Door/Door_First"]
+shape = SubResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="System_Door"]
+anims/RESET = SubResource( 5 )
+anims/open = SubResource( 6 )
+
+[node name="Button" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0 )
+
+[node name="Button_model" type="CSGCombiner" parent="Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+use_collision = true
+
+[node name="buttom_top" type="CSGCylinder" parent="Button/Button_model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+height = 0.25
+sides = 16
+material = SubResource( 7 )
+
+[node name="buttom_bottom" type="CSGCylinder" parent="Button/Button_model"]
+radius = 1.2
+height = 0.25
+sides = 16
+material = ExtResource( 12 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.292231, 0 )
+shape = SubResource( 9 )
+
+[node name="Button2" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 0 )
+
+[node name="Button_model" type="CSGCombiner" parent="Button2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+use_collision = true
+
+[node name="buttom_top" type="CSGCylinder" parent="Button2/Button_model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+height = 0.25
+sides = 16
+material = SubResource( 12 )
+
+[node name="buttom_bottom" type="CSGCylinder" parent="Button2/Button_model"]
+radius = 1.2
+height = 0.25
+sides = 16
+material = SubResource( 13 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Button2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.292231, 0 )
+shape = SubResource( 14 )
+
+[node name="Light_OverWindow" type="SpotLight" parent="."]
+transform = Transform( 0.817396, 2.51811e-08, -0.576076, 0.576076, -3.57295e-08, 0.817396, 0, -1, -4.37114e-08, 0, 14, 0 )
+light_energy = 10.0
+shadow_enabled = true
+shadow_contact = 1.0
+spot_range = 62.2695
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 9 )
+
+[node name="Door_00_Indicator" type="CSGCylinder" parent="."]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 10, 6.25, 0 )
+radius = 0.3
+height = 0.2
+material = SubResource( 45 )
+
+[node name="Door_01_Indicator" type="CSGCylinder" parent="."]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 29.4703, 6.25, 0 )
+radius = 0.3
+height = 0.2
+material = SubResource( 45 )
+
+[node name="Door_01" parent="." instance=ExtResource( 4 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 30, 4, 0 )
+script = SubResource( 11 )
+
+[node name="Lights" type="Spatial" parent="."]
+
+[node name="Light_Room_01" type="OmniLight" parent="Lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 7, 0 )
+light_energy = 6.0
+omni_range = 15.0516
+
+[node name="Light_Room_02" type="OmniLight" parent="Lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 42, 7, 0 )
+light_energy = 6.0
+omni_range = 15.0516
+
+[node name="Light_Room_03" type="OmniLight" parent="Lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 7, 0 )
+light_energy = 6.0
+omni_range = 15.0516
+
+[node name="Light_Room_04" type="OmniLight" parent="Lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 74, 7, 0 )
+light_energy = 6.0
+omni_range = 15.0516
+
+[node name="Light_Room_05" type="OmniLight" parent="Lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 96, 7, 0 )
+light_energy = 6.0
+omni_range = 15.0516
+
+[node name="Light_Room_07" type="OmniLight" parent="Lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 126, 7, 0 )
+light_energy = 6.0
+omni_range = 15.0516
+
+[node name="Light_Room_08" type="OmniLight" parent="Lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 174, 7, 0 )
+light_energy = 6.0
+omni_range = 15.0516
+
+[node name="Light_Room_09" type="OmniLight" parent="Lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 174, 7, 60 )
+light_energy = 6.0
+omni_range = 15.0516
+
+[node name="Light_Room_06" type="OmniLight" parent="Lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 125, 17, 67 )
+light_energy = 20.0
+omni_range = 35.0
+
+[node name="Light_Room_10" type="OmniLight" parent="Lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 78, 17, 67 )
+light_energy = 20.0
+omni_range = 35.0
+
+[node name="Light_Room_11" type="OmniLight" parent="Lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 17, 67 )
+light_energy = 20.0
+omni_range = 35.0
+
+[node name="Light_Room_12" type="OmniLight" parent="Lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -52, 17, 60 )
+light_energy = 20.0
+omni_range = 69.889
+
+[node name="Puzzle_00" type="Spatial" parent="."]
+
+[node name="Box" type="RigidBody" parent="Puzzle_00" groups=["dynamic"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 2, 6 )
+mass = 10.0
+can_sleep = false
+
+[node name="MeshInstance" type="MeshInstance" parent="Puzzle_00/Box"]
+mesh = SubResource( 16 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle_00/Box"]
+shape = SubResource( 17 )
+
+[node name="Puzzle _01" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 51, 4, 0 )
+script = SubResource( 26 )
+
+[node name="Door_02" parent="Puzzle _01" instance=ExtResource( 4 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
+
+[node name="Button3" type="Area" parent="Puzzle _01"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, -4, 7 )
+
+[node name="Button_model" type="CSGCombiner" parent="Puzzle _01/Button3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+use_collision = true
+
+[node name="buttom_top" type="CSGCylinder" parent="Puzzle _01/Button3/Button_model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+height = 0.25
+sides = 16
+material = SubResource( 12 )
+
+[node name="buttom_bottom" type="CSGCylinder" parent="Puzzle _01/Button3/Button_model"]
+radius = 1.2
+height = 0.25
+sides = 16
+material = SubResource( 13 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _01/Button3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.292231, 0 )
+shape = SubResource( 14 )
+
+[node name="Wire_Static" type="MeshInstance" parent="Puzzle _01"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -2.75, -4, 7 )
+mesh = SubResource( 20 )
+material/0 = null
+
+[node name="Wire_Static4" type="MeshInstance" parent="Puzzle _01"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -9.25, -4, 7 )
+mesh = SubResource( 20 )
+material/0 = null
+
+[node name="Wire_Static2" type="MeshInstance" parent="Puzzle _01"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -3, 7 )
+mesh = SubResource( 20 )
+material/0 = null
+
+[node name="Wire_Static3" type="MeshInstance" parent="Puzzle _01"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.5, -0.75, 4.75 )
+mesh = SubResource( 20 )
+material/0 = null
+
+[node name="Puzzle_Wire_Rotate" type="Area" parent="Puzzle _01"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -4, 7 )
+collision_layer = 2
+script = ExtResource( 13 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _01/Puzzle_Wire_Rotate"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _01/Puzzle_Wire_Rotate"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _01/Puzzle_Wire_Rotate"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 23 )
+anims/state_active = SubResource( 24 )
+anims/state_inactive = SubResource( 25 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _01/Puzzle_Wire_Rotate"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _01/Puzzle_Wire_Rotate"]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5.4, 3.25, -5 )
+radius = 0.3
+height = 0.2
+material = SubResource( 34 )
+
+[node name="Box" type="RigidBody" parent="Puzzle _01" groups=["dynamic"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17, -3, -8 )
+mass = 40.0
+
+[node name="MeshInstance" type="MeshInstance" parent="Puzzle _01/Box"]
+mesh = SubResource( 16 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _01/Box"]
+shape = SubResource( 17 )
+
+[node name="Puzzle _02" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 84, 4, 0 )
+script = SubResource( 41 )
+
+[node name="Door_02" parent="Puzzle _02" instance=ExtResource( 4 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
+
+[node name="Button3" type="Area" parent="Puzzle _02"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, -4, 0 )
+
+[node name="Button_model" type="CSGCombiner" parent="Puzzle _02/Button3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+use_collision = true
+
+[node name="buttom_top" type="CSGCylinder" parent="Puzzle _02/Button3/Button_model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+height = 0.25
+sides = 16
+material = SubResource( 12 )
+
+[node name="buttom_bottom" type="CSGCylinder" parent="Puzzle _02/Button3/Button_model"]
+radius = 1.2
+height = 0.25
+sides = 16
+material = SubResource( 13 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _02/Button3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.292231, 0 )
+shape = SubResource( 14 )
+
+[node name="Wire_Model" type="Spatial" parent="Puzzle _02"]
+
+[node name="Wire_Static" type="MeshInstance" parent="Puzzle _02/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -2.75, -4, 7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static4" type="MeshInstance" parent="Puzzle _02/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -9.25, -4, 7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static2" type="MeshInstance" parent="Puzzle _02/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -3, 7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static3" type="MeshInstance" parent="Puzzle _02/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.5, -0.75, 4.75 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static5" type="MeshInstance" parent="Puzzle _02/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -2.75, -4, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static6" type="MeshInstance" parent="Puzzle _02/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -9.25, -4, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static7" type="MeshInstance" parent="Puzzle _02/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -3, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static8" type="MeshInstance" parent="Puzzle _02/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.5, -0.75, -4.72797 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static9" type="MeshInstance" parent="Puzzle _02/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -10.9781, -3.94711, -0.0148141 )
+mesh = SubResource( 42 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Puzzle_Wire_Rotate" type="Area" parent="Puzzle _02"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -4, 7 )
+collision_layer = 2
+script = ExtResource( 13 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _02/Puzzle_Wire_Rotate"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _02/Puzzle_Wire_Rotate"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _02/Puzzle_Wire_Rotate"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 35 )
+anims/state_active = SubResource( 36 )
+anims/state_inactive = SubResource( 37 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _02/Puzzle_Wire_Rotate"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _02/Puzzle_Wire_Rotate"]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5.4, 3.25, -5 )
+radius = 0.3
+height = 0.2
+material = SubResource( 43 )
+
+[node name="Puzzle_Wire_Rotate2" type="Area" parent="Puzzle _02"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -4, -7 )
+collision_layer = 2
+script = ExtResource( 13 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _02/Puzzle_Wire_Rotate2"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _02/Puzzle_Wire_Rotate2"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _02/Puzzle_Wire_Rotate2"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 38 )
+anims/state_active = SubResource( 39 )
+anims/state_inactive = SubResource( 40 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _02/Puzzle_Wire_Rotate2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _02/Puzzle_Wire_Rotate2"]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5.4, 3.25, 5 )
+radius = 0.3
+height = 0.2
+material = SubResource( 44 )
+
+[node name="Box" type="RigidBody" parent="Puzzle _02" groups=["dynamic"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17, -3, -8 )
+mass = 40.0
+
+[node name="MeshInstance" type="MeshInstance" parent="Puzzle _02/Box"]
+mesh = SubResource( 16 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _02/Box"]
+shape = SubResource( 17 )
+
+[node name="Puzzle _03" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 110, 4, 0 )
+script = SubResource( 41 )
+
+[node name="Door_02" parent="Puzzle _03" instance=ExtResource( 4 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
+
+[node name="Button3" type="Area" parent="Puzzle _03"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, -4, 0 )
+
+[node name="Button_model" type="CSGCombiner" parent="Puzzle _03/Button3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+use_collision = true
+
+[node name="buttom_top" type="CSGCylinder" parent="Puzzle _03/Button3/Button_model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+height = 0.25
+sides = 16
+material = SubResource( 12 )
+
+[node name="buttom_bottom" type="CSGCylinder" parent="Puzzle _03/Button3/Button_model"]
+radius = 1.2
+height = 0.25
+sides = 16
+material = SubResource( 13 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _03/Button3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.292231, 0 )
+shape = SubResource( 14 )
+
+[node name="Wire_Model" type="Spatial" parent="Puzzle _03"]
+
+[node name="Wire_Static" type="MeshInstance" parent="Puzzle _03/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -2.75, -4, 7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static4" type="MeshInstance" parent="Puzzle _03/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -9.25, -4, 7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static2" type="MeshInstance" parent="Puzzle _03/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -3, 7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static3" type="MeshInstance" parent="Puzzle _03/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.5, -0.75, 4.75 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static5" type="MeshInstance" parent="Puzzle _03/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -2.75, -4, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static6" type="MeshInstance" parent="Puzzle _03/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -9.25, -4, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static7" type="MeshInstance" parent="Puzzle _03/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -3, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static8" type="MeshInstance" parent="Puzzle _03/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.5, -0.75, -4.72797 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static9" type="MeshInstance" parent="Puzzle _03/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -10.9781, -3.94711, -4.01481 )
+mesh = SubResource( 54 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Light" type="MeshInstance" parent="Puzzle _03/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, -4, 7 )
+mesh = SubResource( 56 )
+material/0 = null
+
+[node name="Puzzle_Wire_Rotate" type="Area" parent="Puzzle _03"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -4, 7 )
+collision_layer = 2
+script = SubResource( 57 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _03/Puzzle_Wire_Rotate"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _03/Puzzle_Wire_Rotate"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _03/Puzzle_Wire_Rotate"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 46 )
+anims/state_active = SubResource( 47 )
+anims/state_inactive = SubResource( 48 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _03/Puzzle_Wire_Rotate"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _03/Puzzle_Wire_Rotate"]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5.4, 3.25, -5 )
+radius = 0.3
+height = 0.2
+material = SubResource( 52 )
+
+[node name="Puzzle_Wire_Rotate2" type="Area" parent="Puzzle _03"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -4, -7 )
+collision_layer = 2
+script = ExtResource( 13 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _03/Puzzle_Wire_Rotate2"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _03/Puzzle_Wire_Rotate2"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _03/Puzzle_Wire_Rotate2"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 49 )
+anims/state_active = SubResource( 50 )
+anims/state_inactive = SubResource( 51 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _03/Puzzle_Wire_Rotate2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _03/Puzzle_Wire_Rotate2"]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5.4, 3.25, 5 )
+radius = 0.3
+height = 0.2
+material = SubResource( 53 )
+
+[node name="Box" type="RigidBody" parent="Puzzle _03" groups=["dynamic"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17, -3, -8 )
+mass = 40.0
+
+[node name="MeshInstance" type="MeshInstance" parent="Puzzle _03/Box"]
+mesh = SubResource( 16 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _03/Box"]
+shape = SubResource( 17 )
+
+[node name="Puzzle _04" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 140, 4, 0 )
+script = SubResource( 69 )
+
+[node name="Door_02" parent="Puzzle _04" instance=ExtResource( 4 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
+
+[node name="Button3" type="Area" parent="Puzzle _04"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -4, 0 )
+
+[node name="Button_model" type="CSGCombiner" parent="Puzzle _04/Button3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+use_collision = true
+
+[node name="buttom_top" type="CSGCylinder" parent="Puzzle _04/Button3/Button_model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+height = 0.25
+sides = 16
+material = SubResource( 12 )
+
+[node name="buttom_bottom" type="CSGCylinder" parent="Puzzle _04/Button3/Button_model"]
+radius = 1.2
+height = 0.25
+sides = 16
+material = SubResource( 13 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _04/Button3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.292231, 0 )
+shape = SubResource( 14 )
+
+[node name="Wire_Model" type="Spatial" parent="Puzzle _04"]
+
+[node name="Wire_Static" type="MeshInstance" parent="Puzzle _04/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -2.75, -4, 7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static4" type="MeshInstance" parent="Puzzle _04/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -9.25, -4, 7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static2" type="MeshInstance" parent="Puzzle _04/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -3, 7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static3" type="MeshInstance" parent="Puzzle _04/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.5, -0.75, 4.75 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static5" type="MeshInstance" parent="Puzzle _04/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -2.75, -4, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static6" type="MeshInstance" parent="Puzzle _04/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -9.25, -4, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static10" type="MeshInstance" parent="Puzzle _04/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -17.5, -4, 0 )
+mesh = SubResource( 64 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static11" type="MeshInstance" parent="Puzzle _04/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -12.5, -4, 0 )
+mesh = SubResource( 64 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static7" type="MeshInstance" parent="Puzzle _04/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -3, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static8" type="MeshInstance" parent="Puzzle _04/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.5, -0.75, -4.72797 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static9" type="MeshInstance" parent="Puzzle _04/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -10.978, -4, -3.5 )
+mesh = SubResource( 65 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Light" type="MeshInstance" parent="Puzzle _04/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, -4, 7 )
+mesh = SubResource( 56 )
+material/0 = null
+
+[node name="Puzzle_Wire_Rotate" type="Area" parent="Puzzle _04"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -4, 7 )
+collision_layer = 2
+script = SubResource( 57 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _04/Puzzle_Wire_Rotate"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _04/Puzzle_Wire_Rotate"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _04/Puzzle_Wire_Rotate"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 58 )
+anims/state_active = SubResource( 59 )
+anims/state_inactive = SubResource( 60 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _04/Puzzle_Wire_Rotate"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _04/Puzzle_Wire_Rotate"]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5.4, 3.25, -5 )
+radius = 0.3
+height = 0.2
+material = SubResource( 70 )
+
+[node name="Puzzle_Wire_Rotate2" type="Area" parent="Puzzle _04"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -4, -7 )
+collision_layer = 2
+script = ExtResource( 13 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _04/Puzzle_Wire_Rotate2"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _04/Puzzle_Wire_Rotate2"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _04/Puzzle_Wire_Rotate2"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 61 )
+anims/state_active = SubResource( 62 )
+anims/state_inactive = SubResource( 63 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _04/Puzzle_Wire_Rotate2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _04/Puzzle_Wire_Rotate2"]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5.4, 3.25, 5 )
+radius = 0.3
+height = 0.2
+material = SubResource( 71 )
+
+[node name="Puzzle_Wire_Rotate3" type="Area" parent="Puzzle _04"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, 0 )
+collision_layer = 2
+script = ExtResource( 13 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _04/Puzzle_Wire_Rotate3"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _04/Puzzle_Wire_Rotate3"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _04/Puzzle_Wire_Rotate3"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 66 )
+anims/state_active = SubResource( 67 )
+anims/state_inactive = SubResource( 68 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _04/Puzzle_Wire_Rotate3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _04/Puzzle_Wire_Rotate3"]
+transform = Transform( 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+radius = 0.3
+height = 0.2
+material = SubResource( 72 )
+
+[node name="Box" type="RigidBody" parent="Puzzle _04" groups=["dynamic"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -3, 0 )
+mass = 40.0
+
+[node name="MeshInstance" type="MeshInstance" parent="Puzzle _04/Box"]
+mesh = SubResource( 16 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _04/Box"]
+shape = SubResource( 17 )
+
+[node name="Puzzle _05" type="Spatial" parent="."]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 107.5, 4, 60 )
+script = SubResource( 82 )
+
+[node name="Door_02" parent="Puzzle _05" instance=ExtResource( 4 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
+
+[node name="Button3" type="Area" parent="Puzzle _05"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -4, 0 )
+
+[node name="Button_model" type="CSGCombiner" parent="Puzzle _05/Button3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+use_collision = true
+
+[node name="buttom_top" type="CSGCylinder" parent="Puzzle _05/Button3/Button_model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+height = 0.25
+sides = 16
+material = SubResource( 12 )
+
+[node name="buttom_bottom" type="CSGCylinder" parent="Puzzle _05/Button3/Button_model"]
+radius = 1.2
+height = 0.25
+sides = 16
+material = SubResource( 13 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _05/Button3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.292231, 0 )
+shape = SubResource( 14 )
+
+[node name="Wire_Model" type="Spatial" parent="Puzzle _05"]
+
+[node name="Wire_Static" type="MeshInstance" parent="Puzzle _05/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -2.75, -4, 7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static4" type="MeshInstance" parent="Puzzle _05/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -9.25, -4, 7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static2" type="MeshInstance" parent="Puzzle _05/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -3, 7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static3" type="MeshInstance" parent="Puzzle _05/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.5, -0.75, 4.75 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static5" type="MeshInstance" parent="Puzzle _05/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -2.75, -4, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static6" type="MeshInstance" parent="Puzzle _05/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -9.25, -4, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static10" type="MeshInstance" parent="Puzzle _05/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -17.5, -4, 0 )
+mesh = SubResource( 64 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static11" type="MeshInstance" parent="Puzzle _05/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -12.5, -4, 0 )
+mesh = SubResource( 64 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static7" type="MeshInstance" parent="Puzzle _05/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -3, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static8" type="MeshInstance" parent="Puzzle _05/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.5, -0.75, -4.72797 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static9" type="MeshInstance" parent="Puzzle _05/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -10.978, -4, -3.5 )
+mesh = SubResource( 65 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Light" type="MeshInstance" parent="Puzzle _05/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, -4, 7 )
+mesh = SubResource( 56 )
+material/0 = null
+
+[node name="Puzzle_Wire_Rotate" type="Area" parent="Puzzle _05"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -4, 7 )
+collision_layer = 2
+script = SubResource( 57 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _05/Puzzle_Wire_Rotate"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _05/Puzzle_Wire_Rotate"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _05/Puzzle_Wire_Rotate"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 73 )
+anims/state_active = SubResource( 74 )
+anims/state_inactive = SubResource( 75 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _05/Puzzle_Wire_Rotate"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _05/Puzzle_Wire_Rotate"]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5.4, 3.25, -5 )
+radius = 0.3
+height = 0.2
+material = SubResource( 83 )
+
+[node name="Puzzle_Wire_Rotate2" type="Area" parent="Puzzle _05"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -4, -7 )
+collision_layer = 2
+script = ExtResource( 13 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _05/Puzzle_Wire_Rotate2"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _05/Puzzle_Wire_Rotate2"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _05/Puzzle_Wire_Rotate2"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 76 )
+anims/state_active = SubResource( 77 )
+anims/state_inactive = SubResource( 78 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _05/Puzzle_Wire_Rotate2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _05/Puzzle_Wire_Rotate2"]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5.4, 3.25, 5 )
+radius = 0.3
+height = 0.2
+material = SubResource( 84 )
+
+[node name="Puzzle_Wire_Rotate3" type="Area" parent="Puzzle _05"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, 0 )
+collision_layer = 2
+script = ExtResource( 13 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _05/Puzzle_Wire_Rotate3"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _05/Puzzle_Wire_Rotate3"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _05/Puzzle_Wire_Rotate3"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 79 )
+anims/state_active = SubResource( 80 )
+anims/state_inactive = SubResource( 81 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _05/Puzzle_Wire_Rotate3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _05/Puzzle_Wire_Rotate3"]
+transform = Transform( 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+radius = 0.3
+height = 0.2
+material = SubResource( 85 )
+
+[node name="Dropper" type="Spatial" parent="Puzzle _05"]
+transform = Transform( -1.17225e-07, 0, 1, 0, 1, 0, -1, 0, -1.17225e-07, -16, 4, -28 )
+script = ExtResource( 16 )
+
+[node name="Tower" type="CSGCombiner" parent="Puzzle _05/Dropper"]
+material_override = SubResource( 86 )
+use_collision = true
+
+[node name="CSGBox" type="CSGBox" parent="Puzzle _05/Dropper/Tower"]
+width = 3.0
+height = 16.0
+depth = 20.0
+
+[node name="Sub" type="CSGBox" parent="Puzzle _05/Dropper/Tower"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 1 )
+operation = 2
+width = 3.27212
+height = 3.0
+depth = 15.8085
+
+[node name="Sub5" type="CSGBox" parent="Puzzle _05/Dropper/Tower"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 6.86646e-05, 4.72834, -8.00001 )
+operation = 2
+width = 4.38839
+height = 2.3
+depth = 8.0
+
+[node name="Sub2" type="CSGBox" parent="Puzzle _05/Dropper/Tower"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1.1433 )
+operation = 2
+width = 3.90501
+height = 2.3
+depth = 16.0
+
+[node name="CSGBox2" type="CSGBox" parent="Puzzle _05/Dropper/Tower"]
+transform = Transform( 3.14005e-14, -1, -8.10134e-08, 1, 0, 1.53437e-07, -1.53437e-07, -8.10134e-08, 1, 0, -2.82638, 8 )
+operation = 2
+width = 10.0
+height = 4.03528
+depth = 2.43057
+
+[node name="Dropper_Box" type="RigidBody" parent="Puzzle _05/Dropper" groups=["dynamic"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, 6.99999 )
+continuous_cd = true
+can_sleep = false
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+
+[node name="MeshInstance" type="MeshInstance" parent="Puzzle _05/Dropper/Dropper_Box"]
+mesh = SubResource( 3 )
+material/0 = ExtResource( 10 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _05/Dropper/Dropper_Box"]
+shape = SubResource( 87 )
+
+[node name="Gravity" type="Area" parent="Puzzle _05/Dropper"]
+space_override = 3
+gravity = 15.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _05/Dropper/Gravity"]
+shape = SubResource( 88 )
+
+[node name="Controllers" type="Spatial" parent="Puzzle _05/Dropper"]
+
+[node name="Control_Up" type="Area" parent="Puzzle _05/Dropper/Controllers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13, -8, -3.8743e-07 )
+
+[node name="Button" type="CSGCombiner" parent="Puzzle _05/Dropper/Controllers/Control_Up"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.355253, 0, -1.05874e-08 )
+
+[node name="line" type="CSGBox" parent="Puzzle _05/Dropper/Controllers/Control_Up/Button"]
+width = 1.0
+height = 0.1
+depth = 0.3
+
+[node name="triangle" type="CSGCylinder" parent="Puzzle _05/Dropper/Controllers/Control_Up/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.746181, 0, 2.22379e-08 )
+radius = 0.5
+height = 0.1
+sides = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _05/Dropper/Controllers/Control_Up"]
+shape = SubResource( 89 )
+
+[node name="Control_Left" type="Area" parent="Puzzle _05/Dropper/Controllers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, -8, -3 )
+
+[node name="Button" type="CSGCombiner" parent="Puzzle _05/Dropper/Controllers/Control_Left"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.0170612, 0, 0.347022 )
+
+[node name="line" type="CSGBox" parent="Puzzle _05/Dropper/Controllers/Control_Left/Button"]
+width = 1.0
+height = 0.1
+depth = 0.3
+
+[node name="triangle" type="CSGCylinder" parent="Puzzle _05/Dropper/Controllers/Control_Left/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.746181, 0, 2.22379e-08 )
+radius = 0.5
+height = 0.1
+sides = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _05/Dropper/Controllers/Control_Left"]
+shape = SubResource( 89 )
+
+[node name="Control_Right" type="Area" parent="Puzzle _05/Dropper/Controllers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, -8, 3 )
+
+[node name="Button" type="CSGCombiner" parent="Puzzle _05/Dropper/Controllers/Control_Right"]
+transform = Transform( 1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -0.0170617, 0, -0.376944 )
+
+[node name="line" type="CSGBox" parent="Puzzle _05/Dropper/Controllers/Control_Right/Button"]
+width = 1.0
+height = 0.1
+depth = 0.3
+
+[node name="triangle" type="CSGCylinder" parent="Puzzle _05/Dropper/Controllers/Control_Right/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.746181, 0, 2.22379e-08 )
+radius = 0.5
+height = 0.1
+sides = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _05/Dropper/Controllers/Control_Right"]
+shape = SubResource( 89 )
+
+[node name="Control_Down" type="Area" parent="Puzzle _05/Dropper/Controllers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, -8, -5.66244e-07 )
+
+[node name="Button" type="CSGCombiner" parent="Puzzle _05/Dropper/Controllers/Control_Down"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.345395, 0, 1.02936e-08 )
+
+[node name="line" type="CSGBox" parent="Puzzle _05/Dropper/Controllers/Control_Down/Button"]
+width = 1.0
+height = 0.1
+depth = 0.3
+
+[node name="triangle" type="CSGCylinder" parent="Puzzle _05/Dropper/Controllers/Control_Down/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.746181, 0, 2.22379e-08 )
+radius = 0.5
+height = 0.1
+sides = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _05/Dropper/Controllers/Control_Down"]
+shape = SubResource( 89 )
+
+[node name="Invis_Walls" type="StaticBody" parent="Puzzle _05/Dropper"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _05/Dropper/Invis_Walls"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.65574, 3, -4.93447e-08 )
+shape = SubResource( 90 )
+
+[node name="CollisionShape2" type="CollisionShape" parent="Puzzle _05/Dropper/Invis_Walls"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.58524, 3, 4.72439e-08 )
+shape = SubResource( 90 )
+
+[node name="Normalize" type="Area" parent="Puzzle _05/Dropper"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _05/Dropper/Normalize"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
+shape = SubResource( 8 )
+
+[node name="Puzzle _06" type="Spatial" parent="."]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 55.5, 4, 60 )
+script = SubResource( 91 )
+
+[node name="Door_02" parent="Puzzle _06" instance=ExtResource( 4 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
+
+[node name="Button3" type="Area" parent="Puzzle _06"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -4, 0 )
+
+[node name="Button_model" type="CSGCombiner" parent="Puzzle _06/Button3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+use_collision = true
+
+[node name="buttom_top" type="CSGCylinder" parent="Puzzle _06/Button3/Button_model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+height = 0.25
+sides = 16
+material = SubResource( 12 )
+
+[node name="buttom_bottom" type="CSGCylinder" parent="Puzzle _06/Button3/Button_model"]
+radius = 1.2
+height = 0.25
+sides = 16
+material = SubResource( 13 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _06/Button3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.292231, 0 )
+shape = SubResource( 14 )
+
+[node name="Wire_Model" type="Spatial" parent="Puzzle _06"]
+
+[node name="Wire_Static" type="MeshInstance" parent="Puzzle _06/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -2.75, -4, 7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static4" type="MeshInstance" parent="Puzzle _06/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -11, -4, 7 )
+mesh = SubResource( 101 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static2" type="MeshInstance" parent="Puzzle _06/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -3, 7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static3" type="MeshInstance" parent="Puzzle _06/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.5, -0.75, 4.75 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static5" type="MeshInstance" parent="Puzzle _06/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -2.75, -4, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static6" type="MeshInstance" parent="Puzzle _06/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -9.25, -4, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static10" type="MeshInstance" parent="Puzzle _06/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -17.5, -4, 0 )
+mesh = SubResource( 64 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static11" type="MeshInstance" parent="Puzzle _06/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -12.5, -4, 0 )
+mesh = SubResource( 64 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static7" type="MeshInstance" parent="Puzzle _06/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -3, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static8" type="MeshInstance" parent="Puzzle _06/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.5, -0.75, -4.72797 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static9" type="MeshInstance" parent="Puzzle _06/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -10.978, -4, -3.5 )
+mesh = SubResource( 65 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static12" type="MeshInstance" parent="Puzzle _06/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -14.978, -4, 7.49998 )
+mesh = SubResource( 102 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static13" type="MeshInstance" parent="Puzzle _06/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -14.978, -4, 10.5 )
+mesh = SubResource( 102 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Light" type="MeshInstance" parent="Puzzle _06/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, 11 )
+mesh = SubResource( 56 )
+material/0 = null
+
+[node name="Puzzle_Wire_Rotate" type="Area" parent="Puzzle _06"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -4, 7 )
+collision_layer = 2
+script = SubResource( 57 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _06/Puzzle_Wire_Rotate"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _06/Puzzle_Wire_Rotate"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _06/Puzzle_Wire_Rotate"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 92 )
+anims/state_active = SubResource( 93 )
+anims/state_inactive = SubResource( 94 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _06/Puzzle_Wire_Rotate"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _06/Puzzle_Wire_Rotate"]
+transform = Transform( 1, -1.83009e-14, -8.74228e-08, 1.06581e-14, 1, -8.74228e-08, 8.74228e-08, 8.74228e-08, 1, 0, 0.15, 0 )
+radius = 0.3
+height = 0.2
+material = SubResource( 103 )
+
+[node name="Puzzle_Wire_Rotate2" type="Area" parent="Puzzle _06"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -4, -7 )
+collision_layer = 2
+script = ExtResource( 13 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _06/Puzzle_Wire_Rotate2"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _06/Puzzle_Wire_Rotate2"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _06/Puzzle_Wire_Rotate2"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 95 )
+anims/state_active = SubResource( 96 )
+anims/state_inactive = SubResource( 97 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _06/Puzzle_Wire_Rotate2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _06/Puzzle_Wire_Rotate2"]
+transform = Transform( 1, -1.83009e-14, -8.74228e-08, 1.06581e-14, 1, -8.74228e-08, 8.74228e-08, 8.74228e-08, 1, 0, 0.15, 0 )
+radius = 0.3
+height = 0.2
+material = SubResource( 104 )
+
+[node name="Puzzle_Wire_Rotate3" type="Area" parent="Puzzle _06"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, 0 )
+collision_layer = 2
+script = ExtResource( 13 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _06/Puzzle_Wire_Rotate3"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _06/Puzzle_Wire_Rotate3"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _06/Puzzle_Wire_Rotate3"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 98 )
+anims/state_active = SubResource( 99 )
+anims/state_inactive = SubResource( 100 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _06/Puzzle_Wire_Rotate3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _06/Puzzle_Wire_Rotate3"]
+transform = Transform( 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+radius = 0.3
+height = 0.2
+material = SubResource( 105 )
+
+[node name="Puzzle_Wire_Rotate4" type="Area" parent="Puzzle _06"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -15, -4, 8.99998 )
+collision_layer = 2
+script = ExtResource( 13 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _06/Puzzle_Wire_Rotate4"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _06/Puzzle_Wire_Rotate4"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _06/Puzzle_Wire_Rotate4"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 106 )
+anims/state_active = SubResource( 107 )
+anims/state_inactive = SubResource( 108 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _06/Puzzle_Wire_Rotate4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _06/Puzzle_Wire_Rotate4"]
+transform = Transform( 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+radius = 0.3
+height = 0.2
+material = SubResource( 109 )
+
+[node name="Dropper" type="Spatial" parent="Puzzle _06"]
+transform = Transform( -1.17225e-07, 0, 1, 0, 1, 0, -1, 0, -1.17225e-07, -16, 4, -28 )
+script = ExtResource( 16 )
+
+[node name="Tower" type="CSGCombiner" parent="Puzzle _06/Dropper"]
+material_override = SubResource( 86 )
+use_collision = true
+
+[node name="CSGBox" type="CSGBox" parent="Puzzle _06/Dropper/Tower"]
+width = 3.0
+height = 16.0
+depth = 20.0
+
+[node name="Sub" type="CSGBox" parent="Puzzle _06/Dropper/Tower"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 1 )
+operation = 2
+width = 3.27212
+height = 3.0
+depth = 15.8085
+
+[node name="Sub5" type="CSGBox" parent="Puzzle _06/Dropper/Tower"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 6.86646e-05, 5.72834, -8.00001 )
+operation = 2
+width = 4.38839
+height = 2.3
+depth = 7.75585
+
+[node name="Sub6" type="CSGBox" parent="Puzzle _06/Dropper/Tower"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 6.86646e-05, 1.72834, -2.00001 )
+operation = 2
+width = 4.38839
+height = 2.3
+depth = 4.0
+
+[node name="Sub2" type="CSGBox" parent="Puzzle _06/Dropper/Tower"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -3.06846 )
+operation = 2
+width = 3.90501
+height = 2.3
+depth = 7.63017
+
+[node name="Sub3" type="CSGBox" parent="Puzzle _06/Dropper/Tower"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0.856705 )
+operation = 2
+width = 3.90501
+height = 2.3
+depth = 16.0
+
+[node name="CSGBox2" type="CSGBox" parent="Puzzle _06/Dropper/Tower"]
+transform = Transform( 3.14005e-14, -1, -8.10134e-08, 1, 0, 1.53437e-07, -1.53437e-07, -8.10134e-08, 1, 0, -1.08051, 8.00001 )
+operation = 2
+width = 10.4367
+height = 4.03528
+depth = 2.43057
+
+[node name="Dropper_Box" type="RigidBody" parent="Puzzle _06/Dropper" groups=["dynamic"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, 6.99999 )
+continuous_cd = true
+can_sleep = false
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+
+[node name="MeshInstance" type="MeshInstance" parent="Puzzle _06/Dropper/Dropper_Box"]
+mesh = SubResource( 3 )
+material/0 = ExtResource( 10 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _06/Dropper/Dropper_Box"]
+shape = SubResource( 87 )
+
+[node name="Gravity" type="Area" parent="Puzzle _06/Dropper"]
+space_override = 3
+gravity = 15.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _06/Dropper/Gravity"]
+shape = SubResource( 88 )
+
+[node name="Controllers" type="Spatial" parent="Puzzle _06/Dropper"]
+
+[node name="Control_Up" type="Area" parent="Puzzle _06/Dropper/Controllers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13, -8, -3.8743e-07 )
+
+[node name="Button" type="CSGCombiner" parent="Puzzle _06/Dropper/Controllers/Control_Up"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.355253, 0, -1.05874e-08 )
+
+[node name="line" type="CSGBox" parent="Puzzle _06/Dropper/Controllers/Control_Up/Button"]
+width = 1.0
+height = 0.1
+depth = 0.3
+
+[node name="triangle" type="CSGCylinder" parent="Puzzle _06/Dropper/Controllers/Control_Up/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.746181, 0, 2.22379e-08 )
+radius = 0.5
+height = 0.1
+sides = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _06/Dropper/Controllers/Control_Up"]
+shape = SubResource( 89 )
+
+[node name="Control_Left" type="Area" parent="Puzzle _06/Dropper/Controllers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, -8, -3 )
+
+[node name="Button" type="CSGCombiner" parent="Puzzle _06/Dropper/Controllers/Control_Left"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.0170612, 0, 0.347022 )
+
+[node name="line" type="CSGBox" parent="Puzzle _06/Dropper/Controllers/Control_Left/Button"]
+width = 1.0
+height = 0.1
+depth = 0.3
+
+[node name="triangle" type="CSGCylinder" parent="Puzzle _06/Dropper/Controllers/Control_Left/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.746181, 0, 2.22379e-08 )
+radius = 0.5
+height = 0.1
+sides = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _06/Dropper/Controllers/Control_Left"]
+shape = SubResource( 89 )
+
+[node name="Control_Right" type="Area" parent="Puzzle _06/Dropper/Controllers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, -8, 3 )
+
+[node name="Button" type="CSGCombiner" parent="Puzzle _06/Dropper/Controllers/Control_Right"]
+transform = Transform( 1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -0.0170617, 0, -0.376944 )
+
+[node name="line" type="CSGBox" parent="Puzzle _06/Dropper/Controllers/Control_Right/Button"]
+width = 1.0
+height = 0.1
+depth = 0.3
+
+[node name="triangle" type="CSGCylinder" parent="Puzzle _06/Dropper/Controllers/Control_Right/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.746181, 0, 2.22379e-08 )
+radius = 0.5
+height = 0.1
+sides = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _06/Dropper/Controllers/Control_Right"]
+shape = SubResource( 89 )
+
+[node name="Control_Down" type="Area" parent="Puzzle _06/Dropper/Controllers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, -8, -5.66244e-07 )
+
+[node name="Button" type="CSGCombiner" parent="Puzzle _06/Dropper/Controllers/Control_Down"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.345395, 0, 1.02936e-08 )
+
+[node name="line" type="CSGBox" parent="Puzzle _06/Dropper/Controllers/Control_Down/Button"]
+width = 1.0
+height = 0.1
+depth = 0.3
+
+[node name="triangle" type="CSGCylinder" parent="Puzzle _06/Dropper/Controllers/Control_Down/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.746181, 0, 2.22379e-08 )
+radius = 0.5
+height = 0.1
+sides = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _06/Dropper/Controllers/Control_Down"]
+shape = SubResource( 89 )
+
+[node name="Invis_Walls" type="StaticBody" parent="Puzzle _06/Dropper"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _06/Dropper/Invis_Walls"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.65574, 3, -4.93447e-08 )
+shape = SubResource( 90 )
+
+[node name="CollisionShape2" type="CollisionShape" parent="Puzzle _06/Dropper/Invis_Walls"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.58524, 3, 4.72439e-08 )
+shape = SubResource( 90 )
+
+[node name="Normalize" type="Area" parent="Puzzle _06/Dropper"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _06/Dropper/Normalize"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
+shape = SubResource( 8 )
+
+[node name="Puzzle _07" type="Spatial" parent="."]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.5, 4, 60 )
+script = SubResource( 110 )
+
+[node name="Door_02" parent="Puzzle _07" instance=ExtResource( 4 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
+
+[node name="Button3" type="Area" parent="Puzzle _07"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -4, 0 )
+
+[node name="Button_model" type="CSGCombiner" parent="Puzzle _07/Button3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+use_collision = true
+
+[node name="buttom_top" type="CSGCylinder" parent="Puzzle _07/Button3/Button_model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+height = 0.25
+sides = 16
+material = SubResource( 12 )
+
+[node name="buttom_bottom" type="CSGCylinder" parent="Puzzle _07/Button3/Button_model"]
+radius = 1.2
+height = 0.25
+sides = 16
+material = SubResource( 13 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _07/Button3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.292231, 0 )
+shape = SubResource( 14 )
+
+[node name="Wire_Model" type="Spatial" parent="Puzzle _07"]
+
+[node name="Wire_Static" type="MeshInstance" parent="Puzzle _07/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -2.75, -4, 7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static4" type="MeshInstance" parent="Puzzle _07/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -11, -4, 7 )
+mesh = SubResource( 101 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static2" type="MeshInstance" parent="Puzzle _07/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -3, 7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static3" type="MeshInstance" parent="Puzzle _07/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.5, -0.75, 4.75 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static5" type="MeshInstance" parent="Puzzle _07/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -2.75, -4, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static6" type="MeshInstance" parent="Puzzle _07/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -9.25, -4, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static10" type="MeshInstance" parent="Puzzle _07/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -17.5, -4, 0 )
+mesh = SubResource( 64 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static11" type="MeshInstance" parent="Puzzle _07/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -12.5, -4, 0 )
+mesh = SubResource( 64 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static7" type="MeshInstance" parent="Puzzle _07/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -3, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static8" type="MeshInstance" parent="Puzzle _07/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.5, -0.75, -4.72797 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static9" type="MeshInstance" parent="Puzzle _07/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -10.978, -4, -3.5 )
+mesh = SubResource( 65 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static12" type="MeshInstance" parent="Puzzle _07/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -14.978, -4, 7.49998 )
+mesh = SubResource( 102 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static13" type="MeshInstance" parent="Puzzle _07/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -14.978, -4, 10.5 )
+mesh = SubResource( 102 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Light" type="MeshInstance" parent="Puzzle _07/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, 11 )
+mesh = SubResource( 56 )
+material/0 = null
+
+[node name="Puzzle_Wire_Rotate" type="Area" parent="Puzzle _07"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -4, 7 )
+collision_layer = 2
+script = SubResource( 57 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _07/Puzzle_Wire_Rotate"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _07/Puzzle_Wire_Rotate"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _07/Puzzle_Wire_Rotate"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 111 )
+anims/state_active = SubResource( 112 )
+anims/state_inactive = SubResource( 113 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _07/Puzzle_Wire_Rotate"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _07/Puzzle_Wire_Rotate"]
+transform = Transform( 1, -1.83009e-14, -8.74228e-08, 1.06581e-14, 1, -8.74228e-08, 8.74228e-08, 8.74228e-08, 1, 0, 0.15, 0 )
+radius = 0.3
+height = 0.2
+material = SubResource( 137 )
+
+[node name="Puzzle_Wire_Rotate2" type="Area" parent="Puzzle _07"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -4, -7 )
+collision_layer = 2
+script = ExtResource( 13 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _07/Puzzle_Wire_Rotate2"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _07/Puzzle_Wire_Rotate2"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _07/Puzzle_Wire_Rotate2"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 114 )
+anims/state_active = SubResource( 115 )
+anims/state_inactive = SubResource( 116 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _07/Puzzle_Wire_Rotate2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _07/Puzzle_Wire_Rotate2"]
+transform = Transform( 1, -1.83009e-14, -8.74228e-08, 1.06581e-14, 1, -8.74228e-08, 8.74228e-08, 8.74228e-08, 1, 0, 0.15, 0 )
+radius = 0.3
+height = 0.2
+material = SubResource( 138 )
+
+[node name="Puzzle_Wire_Rotate3" type="Area" parent="Puzzle _07"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, 0 )
+collision_layer = 2
+script = ExtResource( 13 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _07/Puzzle_Wire_Rotate3"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _07/Puzzle_Wire_Rotate3"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _07/Puzzle_Wire_Rotate3"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 117 )
+anims/state_active = SubResource( 118 )
+anims/state_inactive = SubResource( 119 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _07/Puzzle_Wire_Rotate3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _07/Puzzle_Wire_Rotate3"]
+transform = Transform( 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+radius = 0.3
+height = 0.2
+material = SubResource( 139 )
+
+[node name="Puzzle_Wire_Rotate4" type="Area" parent="Puzzle _07"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -15, -4, 8.99998 )
+collision_layer = 2
+script = ExtResource( 13 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _07/Puzzle_Wire_Rotate4"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _07/Puzzle_Wire_Rotate4"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _07/Puzzle_Wire_Rotate4"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 120 )
+anims/state_active = SubResource( 121 )
+anims/state_inactive = SubResource( 122 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _07/Puzzle_Wire_Rotate4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _07/Puzzle_Wire_Rotate4"]
+transform = Transform( 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+radius = 0.3
+height = 0.2
+material = SubResource( 140 )
+
+[node name="Dropper" type="Spatial" parent="Puzzle _07"]
+transform = Transform( -1.17225e-07, 0, 1, 0, 1, 0, -1, 0, -1.17225e-07, -16, 4, -28 )
+script = ExtResource( 16 )
+
+[node name="Tower" type="CSGCombiner" parent="Puzzle _07/Dropper"]
+material_override = SubResource( 86 )
+use_collision = true
+
+[node name="CSGBox" type="CSGBox" parent="Puzzle _07/Dropper/Tower"]
+width = 3.0
+height = 16.0
+depth = 20.0
+
+[node name="Sub" type="CSGBox" parent="Puzzle _07/Dropper/Tower"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 1 )
+operation = 2
+width = 3.27212
+height = 3.0
+depth = 15.8085
+
+[node name="Sub5" type="CSGBox" parent="Puzzle _07/Dropper/Tower"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 6.86646e-05, 5.72834, -8.00001 )
+operation = 2
+width = 4.38839
+height = 2.3
+depth = 7.75585
+
+[node name="Sub6" type="CSGBox" parent="Puzzle _07/Dropper/Tower"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 6.86646e-05, 1.72834, 1.99999 )
+operation = 2
+width = 4.38839
+height = 2.3
+depth = 4.0
+
+[node name="Sub2" type="CSGBox" parent="Puzzle _07/Dropper/Tower"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.52588e-05, 3, -2.06846 )
+operation = 2
+width = 3.90501
+height = 2.3
+depth = 10.1308
+
+[node name="Sub3" type="CSGBox" parent="Puzzle _07/Dropper/Tower"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0.856705 )
+operation = 2
+width = 3.90501
+height = 2.3
+depth = 16.0
+
+[node name="CSGBox2" type="CSGBox" parent="Puzzle _07/Dropper/Tower"]
+transform = Transform( 3.14005e-14, -1, -8.10134e-08, 1, 0, 1.53437e-07, -1.53437e-07, -8.10134e-08, 1, 0, -3.43935, 8.00002 )
+operation = 2
+width = 7.23553
+height = 4.03528
+depth = 2.43057
+
+[node name="Dropper_Box" type="RigidBody" parent="Puzzle _07/Dropper" groups=["dynamic"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, 6.99999 )
+continuous_cd = true
+can_sleep = false
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+
+[node name="MeshInstance" type="MeshInstance" parent="Puzzle _07/Dropper/Dropper_Box"]
+mesh = SubResource( 3 )
+material/0 = ExtResource( 10 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _07/Dropper/Dropper_Box"]
+shape = SubResource( 87 )
+
+[node name="Gravity" type="Area" parent="Puzzle _07/Dropper"]
+space_override = 3
+gravity = 15.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _07/Dropper/Gravity"]
+shape = SubResource( 88 )
+
+[node name="Controllers" type="Spatial" parent="Puzzle _07/Dropper"]
+
+[node name="Control_Up" type="Area" parent="Puzzle _07/Dropper/Controllers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13, -8, -3.8743e-07 )
+
+[node name="Button" type="CSGCombiner" parent="Puzzle _07/Dropper/Controllers/Control_Up"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.355253, 0, -1.05874e-08 )
+
+[node name="line" type="CSGBox" parent="Puzzle _07/Dropper/Controllers/Control_Up/Button"]
+width = 1.0
+height = 0.1
+depth = 0.3
+
+[node name="triangle" type="CSGCylinder" parent="Puzzle _07/Dropper/Controllers/Control_Up/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.746181, 0, 2.22379e-08 )
+radius = 0.5
+height = 0.1
+sides = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _07/Dropper/Controllers/Control_Up"]
+shape = SubResource( 89 )
+
+[node name="Control_Left" type="Area" parent="Puzzle _07/Dropper/Controllers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, -8, -3 )
+
+[node name="Button" type="CSGCombiner" parent="Puzzle _07/Dropper/Controllers/Control_Left"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.0170612, 0, 0.347022 )
+
+[node name="line" type="CSGBox" parent="Puzzle _07/Dropper/Controllers/Control_Left/Button"]
+width = 1.0
+height = 0.1
+depth = 0.3
+
+[node name="triangle" type="CSGCylinder" parent="Puzzle _07/Dropper/Controllers/Control_Left/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.746181, 0, 2.22379e-08 )
+radius = 0.5
+height = 0.1
+sides = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _07/Dropper/Controllers/Control_Left"]
+shape = SubResource( 89 )
+
+[node name="Control_Right" type="Area" parent="Puzzle _07/Dropper/Controllers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, -8, 3 )
+
+[node name="Button" type="CSGCombiner" parent="Puzzle _07/Dropper/Controllers/Control_Right"]
+transform = Transform( 1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -0.0170617, 0, -0.376944 )
+
+[node name="line" type="CSGBox" parent="Puzzle _07/Dropper/Controllers/Control_Right/Button"]
+width = 1.0
+height = 0.1
+depth = 0.3
+
+[node name="triangle" type="CSGCylinder" parent="Puzzle _07/Dropper/Controllers/Control_Right/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.746181, 0, 2.22379e-08 )
+radius = 0.5
+height = 0.1
+sides = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _07/Dropper/Controllers/Control_Right"]
+shape = SubResource( 89 )
+
+[node name="Control_Down" type="Area" parent="Puzzle _07/Dropper/Controllers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, -8, -5.66244e-07 )
+
+[node name="Button" type="CSGCombiner" parent="Puzzle _07/Dropper/Controllers/Control_Down"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.345395, 0, 1.02936e-08 )
+
+[node name="line" type="CSGBox" parent="Puzzle _07/Dropper/Controllers/Control_Down/Button"]
+width = 1.0
+height = 0.1
+depth = 0.3
+
+[node name="triangle" type="CSGCylinder" parent="Puzzle _07/Dropper/Controllers/Control_Down/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.746181, 0, 2.22379e-08 )
+radius = 0.5
+height = 0.1
+sides = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _07/Dropper/Controllers/Control_Down"]
+shape = SubResource( 89 )
+
+[node name="Invis_Walls" type="StaticBody" parent="Puzzle _07/Dropper"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _07/Dropper/Invis_Walls"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.65574, 3, -4.93447e-08 )
+shape = SubResource( 90 )
+
+[node name="CollisionShape2" type="CollisionShape" parent="Puzzle _07/Dropper/Invis_Walls"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.58524, 3, 4.72439e-08 )
+shape = SubResource( 90 )
+
+[node name="Normalize" type="Area" parent="Puzzle _07/Dropper"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _07/Dropper/Normalize"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
+shape = SubResource( 8 )
+
+[node name="Puzzle _08" type="Spatial" parent="."]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -68.5, 4, 60 )
+script = SubResource( 123 )
+
+[node name="Door_02" parent="Puzzle _08" instance=ExtResource( 4 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
+
+[node name="Button3" type="Area" parent="Puzzle _08"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -4, 0 )
+
+[node name="Button_model" type="CSGCombiner" parent="Puzzle _08/Button3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+use_collision = true
+
+[node name="buttom_top" type="CSGCylinder" parent="Puzzle _08/Button3/Button_model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+height = 0.25
+sides = 16
+material = SubResource( 12 )
+
+[node name="buttom_bottom" type="CSGCylinder" parent="Puzzle _08/Button3/Button_model"]
+radius = 1.2
+height = 0.25
+sides = 16
+material = SubResource( 13 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Button3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.292231, 0 )
+shape = SubResource( 14 )
+
+[node name="Button4" type="Area" parent="Puzzle _08"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, 12 )
+
+[node name="Button_model" type="CSGCombiner" parent="Puzzle _08/Button4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+use_collision = true
+
+[node name="buttom_top" type="CSGCylinder" parent="Puzzle _08/Button4/Button_model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+height = 0.25
+sides = 16
+material = SubResource( 12 )
+
+[node name="buttom_bottom" type="CSGCylinder" parent="Puzzle _08/Button4/Button_model"]
+radius = 1.2
+height = 0.25
+sides = 16
+material = SubResource( 13 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Button4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.292231, 0 )
+shape = SubResource( 14 )
+
+[node name="Wire_Model" type="Spatial" parent="Puzzle _08"]
+
+[node name="Wire_Static" type="MeshInstance" parent="Puzzle _08/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -2.75, -4, 7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static4" type="MeshInstance" parent="Puzzle _08/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -11, -4, 7 )
+mesh = SubResource( 101 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static2" type="MeshInstance" parent="Puzzle _08/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -3, 7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static3" type="MeshInstance" parent="Puzzle _08/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.5, -0.75, 4.75 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static5" type="MeshInstance" parent="Puzzle _08/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -2.75, -4, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static6" type="MeshInstance" parent="Puzzle _08/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -9.25, -4, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static10" type="MeshInstance" parent="Puzzle _08/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -17.5, -4, 0 )
+mesh = SubResource( 64 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static11" type="MeshInstance" parent="Puzzle _08/Wire_Model"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -12.5, -4, 0 )
+mesh = SubResource( 64 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static7" type="MeshInstance" parent="Puzzle _08/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -3, -7 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static8" type="MeshInstance" parent="Puzzle _08/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.5, -0.75, -4.72797 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static9" type="MeshInstance" parent="Puzzle _08/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -10.978, -4, -3.5 )
+mesh = SubResource( 65 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static12" type="MeshInstance" parent="Puzzle _08/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -14.978, -4, 7.49998 )
+mesh = SubResource( 102 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Static13" type="MeshInstance" parent="Puzzle _08/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -14.978, -4, 10.5 )
+mesh = SubResource( 102 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Light" type="MeshInstance" parent="Puzzle _08/Wire_Model"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -5, 11 )
+mesh = SubResource( 56 )
+material/0 = null
+
+[node name="Puzzle_Wire_Rotate" type="Area" parent="Puzzle _08"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -4, 7 )
+collision_layer = 2
+script = SubResource( 145 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _08/Puzzle_Wire_Rotate"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _08/Puzzle_Wire_Rotate"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _08/Puzzle_Wire_Rotate"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 124 )
+anims/state_active = SubResource( 125 )
+anims/state_inactive = SubResource( 126 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Puzzle_Wire_Rotate"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _08/Puzzle_Wire_Rotate"]
+transform = Transform( 1, -1.83009e-14, -8.74228e-08, 1.06581e-14, 1, -8.74228e-08, 8.74228e-08, 8.74228e-08, 1, 0, 0.15, 0 )
+radius = 0.3
+height = 0.2
+material = SubResource( 141 )
+
+[node name="Puzzle_Wire_Rotate2" type="Area" parent="Puzzle _08"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -4, -7 )
+collision_layer = 2
+script = ExtResource( 13 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _08/Puzzle_Wire_Rotate2"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _08/Puzzle_Wire_Rotate2"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _08/Puzzle_Wire_Rotate2"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 127 )
+anims/state_active = SubResource( 128 )
+anims/state_inactive = SubResource( 129 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Puzzle_Wire_Rotate2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _08/Puzzle_Wire_Rotate2"]
+transform = Transform( 1, -1.83009e-14, -8.74228e-08, 1.06581e-14, 1, -8.74228e-08, 8.74228e-08, 8.74228e-08, 1, 0, 0.15, 0 )
+radius = 0.3
+height = 0.2
+material = SubResource( 142 )
+
+[node name="Puzzle_Wire_Rotate3" type="Area" parent="Puzzle _08"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, 0 )
+collision_layer = 2
+script = ExtResource( 13 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _08/Puzzle_Wire_Rotate3"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _08/Puzzle_Wire_Rotate3"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _08/Puzzle_Wire_Rotate3"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 130 )
+anims/state_active = SubResource( 131 )
+anims/state_inactive = SubResource( 132 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Puzzle_Wire_Rotate3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _08/Puzzle_Wire_Rotate3"]
+transform = Transform( 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+radius = 0.3
+height = 0.2
+material = SubResource( 143 )
+
+[node name="Puzzle_Wire_Rotate4" type="Area" parent="Puzzle _08"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -15, -4, 8.99998 )
+collision_layer = 2
+script = ExtResource( 13 )
+
+[node name="Wire_Rotate" type="MeshInstance" parent="Puzzle _08/Puzzle_Wire_Rotate4"]
+transform = Transform( -4.37114e-08, 1, 1.19209e-07, -1, -4.37114e-08, 4.14523e-16, 5.62533e-15, -1.19209e-07, 1, 0, 0, 0 )
+mesh = SubResource( 19 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="Puzzle _08/Puzzle_Wire_Rotate4"]
+transform = Transform( -1.39091e-08, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, -1, -8.74228e-08, 1.39091e-08, 0, 0, -4.76837e-07 )
+mesh = SubResource( 21 )
+skeleton = NodePath("../Wire_Rotate")
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle _08/Puzzle_Wire_Rotate4"]
+root_node = NodePath("../Wire_Rotate")
+anims/RESET = SubResource( 133 )
+anims/state_active = SubResource( 134 )
+anims/state_inactive = SubResource( 135 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Puzzle_Wire_Rotate4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
+shape = SubResource( 22 )
+
+[node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _08/Puzzle_Wire_Rotate4"]
+transform = Transform( 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 0, 0, 1, 0, 0.15, 0 )
+radius = 0.3
+height = 0.2
+material = SubResource( 144 )
+
+[node name="Dropper" type="Spatial" parent="Puzzle _08"]
+transform = Transform( -1.17225e-07, 0, 1, 0, 1, 0, -1, 0, -1.17225e-07, -16, 4, -39 )
+script = ExtResource( 16 )
+
+[node name="Tower" type="CSGCombiner" parent="Puzzle _08/Dropper"]
+material_override = SubResource( 86 )
+use_collision = true
+
+[node name="CSGBox" type="CSGBox" parent="Puzzle _08/Dropper/Tower"]
+width = 3.0
+height = 16.0
+depth = 20.0
+
+[node name="Sub" type="CSGBox" parent="Puzzle _08/Dropper/Tower"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 1 )
+operation = 2
+width = 3.27212
+height = 3.0
+depth = 15.8085
+
+[node name="Sub5" type="CSGBox" parent="Puzzle _08/Dropper/Tower"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 6.86646e-05, 5.72834, -8.00001 )
+operation = 2
+width = 4.38839
+height = 2.3
+depth = 7.75585
+
+[node name="Sub6" type="CSGBox" parent="Puzzle _08/Dropper/Tower"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 6.86646e-05, 1.72834, -2.00001 )
+operation = 2
+width = 4.38839
+height = 2.3
+depth = 4.0
+
+[node name="Sub2" type="CSGBox" parent="Puzzle _08/Dropper/Tower"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -3.06846 )
+operation = 2
+width = 3.90501
+height = 2.3
+depth = 7.63017
+
+[node name="Sub3" type="CSGBox" parent="Puzzle _08/Dropper/Tower"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0.856705 )
+operation = 2
+width = 3.90501
+height = 2.3
+depth = 16.0
+
+[node name="CSGBox2" type="CSGBox" parent="Puzzle _08/Dropper/Tower"]
+transform = Transform( 3.14005e-14, -1, -8.10134e-08, 1, 0, 1.53437e-07, -1.53437e-07, -8.10134e-08, 1, 0, -1.08051, 8.00001 )
+operation = 2
+width = 10.4367
+height = 4.03528
+depth = 2.43057
+
+[node name="Dropper_Box" type="RigidBody" parent="Puzzle _08/Dropper" groups=["dynamic"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, 6.99999 )
+continuous_cd = true
+can_sleep = false
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+
+[node name="MeshInstance" type="MeshInstance" parent="Puzzle _08/Dropper/Dropper_Box"]
+mesh = SubResource( 3 )
+material/0 = ExtResource( 10 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Dropper/Dropper_Box"]
+shape = SubResource( 87 )
+
+[node name="Gravity" type="Area" parent="Puzzle _08/Dropper"]
+space_override = 3
+gravity = 15.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Dropper/Gravity"]
+shape = SubResource( 88 )
+
+[node name="Controllers" type="Spatial" parent="Puzzle _08/Dropper"]
+
+[node name="Control_Up" type="Area" parent="Puzzle _08/Dropper/Controllers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13, -8, -3.8743e-07 )
+
+[node name="Button" type="CSGCombiner" parent="Puzzle _08/Dropper/Controllers/Control_Up"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.355253, 0, -1.05874e-08 )
+
+[node name="line" type="CSGBox" parent="Puzzle _08/Dropper/Controllers/Control_Up/Button"]
+width = 1.0
+height = 0.1
+depth = 0.3
+
+[node name="triangle" type="CSGCylinder" parent="Puzzle _08/Dropper/Controllers/Control_Up/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.746181, 0, 2.22379e-08 )
+radius = 0.5
+height = 0.1
+sides = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Dropper/Controllers/Control_Up"]
+shape = SubResource( 89 )
+
+[node name="Control_Left" type="Area" parent="Puzzle _08/Dropper/Controllers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, -8, -3 )
+
+[node name="Button" type="CSGCombiner" parent="Puzzle _08/Dropper/Controllers/Control_Left"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.0170612, 0, 0.347022 )
+
+[node name="line" type="CSGBox" parent="Puzzle _08/Dropper/Controllers/Control_Left/Button"]
+width = 1.0
+height = 0.1
+depth = 0.3
+
+[node name="triangle" type="CSGCylinder" parent="Puzzle _08/Dropper/Controllers/Control_Left/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.746181, 0, 2.22379e-08 )
+radius = 0.5
+height = 0.1
+sides = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Dropper/Controllers/Control_Left"]
+shape = SubResource( 89 )
+
+[node name="Control_Right" type="Area" parent="Puzzle _08/Dropper/Controllers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, -8, 3 )
+
+[node name="Button" type="CSGCombiner" parent="Puzzle _08/Dropper/Controllers/Control_Right"]
+transform = Transform( 1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -0.0170617, 0, -0.376944 )
+
+[node name="line" type="CSGBox" parent="Puzzle _08/Dropper/Controllers/Control_Right/Button"]
+width = 1.0
+height = 0.1
+depth = 0.3
+
+[node name="triangle" type="CSGCylinder" parent="Puzzle _08/Dropper/Controllers/Control_Right/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.746181, 0, 2.22379e-08 )
+radius = 0.5
+height = 0.1
+sides = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Dropper/Controllers/Control_Right"]
+shape = SubResource( 89 )
+
+[node name="Control_Down" type="Area" parent="Puzzle _08/Dropper/Controllers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, -8, -5.66244e-07 )
+
+[node name="Button" type="CSGCombiner" parent="Puzzle _08/Dropper/Controllers/Control_Down"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.345395, 0, 1.02936e-08 )
+
+[node name="line" type="CSGBox" parent="Puzzle _08/Dropper/Controllers/Control_Down/Button"]
+width = 1.0
+height = 0.1
+depth = 0.3
+
+[node name="triangle" type="CSGCylinder" parent="Puzzle _08/Dropper/Controllers/Control_Down/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.746181, 0, 2.22379e-08 )
+radius = 0.5
+height = 0.1
+sides = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Dropper/Controllers/Control_Down"]
+shape = SubResource( 89 )
+
+[node name="Invis_Walls" type="StaticBody" parent="Puzzle _08/Dropper"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Dropper/Invis_Walls"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.65574, 3, -4.93447e-08 )
+shape = SubResource( 90 )
+
+[node name="CollisionShape2" type="CollisionShape" parent="Puzzle _08/Dropper/Invis_Walls"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.58524, 3, 4.72439e-08 )
+shape = SubResource( 90 )
+
+[node name="Normalize" type="Area" parent="Puzzle _08/Dropper"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Dropper/Normalize"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
+shape = SubResource( 8 )
+
+[node name="Dropper2" type="Spatial" parent="Puzzle _08"]
+transform = Transform( 2.04648e-07, 0, -1, 0, 1, 0, 1, 0, 2.04648e-07, -16, 4, 36 )
+script = ExtResource( 16 )
+
+[node name="Tower" type="CSGCombiner" parent="Puzzle _08/Dropper2"]
+material_override = SubResource( 86 )
+use_collision = true
+
+[node name="CSGBox" type="CSGBox" parent="Puzzle _08/Dropper2/Tower"]
+width = 3.0
+height = 16.0
+depth = 20.0
+
+[node name="Sub" type="CSGBox" parent="Puzzle _08/Dropper2/Tower"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 1 )
+operation = 2
+width = 3.27212
+height = 3.0
+depth = 15.8085
+
+[node name="Sub5" type="CSGBox" parent="Puzzle _08/Dropper2/Tower"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 6.86646e-05, 5.72834, -8.00001 )
+operation = 2
+width = 4.38839
+height = 2.3
+depth = 7.75585
+
+[node name="Sub6" type="CSGBox" parent="Puzzle _08/Dropper2/Tower"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 6.86646e-05, 1.72834, -2.00001 )
+operation = 2
+width = 4.38839
+height = 2.3
+depth = 4.0
+
+[node name="Sub2" type="CSGBox" parent="Puzzle _08/Dropper2/Tower"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -3.06846 )
+operation = 2
+width = 3.90501
+height = 2.3
+depth = 7.63017
+
+[node name="Sub3" type="CSGBox" parent="Puzzle _08/Dropper2/Tower"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0.856705 )
+operation = 2
+width = 3.90501
+height = 2.3
+depth = 8.0
+
+[node name="Sub4" type="CSGBox" parent="Puzzle _08/Dropper2/Tower"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90735e-06, 1.78253, 4.90262 )
+operation = 2
+width = 3.90501
+height = 3.29738
+depth = 4.96743
+
+[node name="CSGBox2" type="CSGBox" parent="Puzzle _08/Dropper2/Tower"]
+transform = Transform( 3.14005e-14, -1, -8.10134e-08, 1, 0, 1.53437e-07, -1.53437e-07, -8.10134e-08, 1, 0, -1.08051, 8.00001 )
+operation = 2
+width = 10.4367
+height = 4.03528
+depth = 2.43057
+
+[node name="Dropper_Box" type="RigidBody" parent="Puzzle _08/Dropper2" groups=["dynamic"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, 6.99999 )
+continuous_cd = true
+can_sleep = false
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+
+[node name="MeshInstance" type="MeshInstance" parent="Puzzle _08/Dropper2/Dropper_Box"]
+mesh = SubResource( 3 )
+material/0 = ExtResource( 10 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Dropper2/Dropper_Box"]
+shape = SubResource( 87 )
+
+[node name="Gravity" type="Area" parent="Puzzle _08/Dropper2"]
+space_override = 3
+gravity = 15.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Dropper2/Gravity"]
+shape = SubResource( 88 )
+
+[node name="Controllers" type="Spatial" parent="Puzzle _08/Dropper2"]
+
+[node name="Control_Up" type="Area" parent="Puzzle _08/Dropper2/Controllers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13, -8, -3.8743e-07 )
+
+[node name="Button" type="CSGCombiner" parent="Puzzle _08/Dropper2/Controllers/Control_Up"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.355253, 0, -1.05874e-08 )
+
+[node name="line" type="CSGBox" parent="Puzzle _08/Dropper2/Controllers/Control_Up/Button"]
+width = 1.0
+height = 0.1
+depth = 0.3
+
+[node name="triangle" type="CSGCylinder" parent="Puzzle _08/Dropper2/Controllers/Control_Up/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.746181, 0, 2.22379e-08 )
+radius = 0.5
+height = 0.1
+sides = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Dropper2/Controllers/Control_Up"]
+shape = SubResource( 89 )
+
+[node name="Control_Left" type="Area" parent="Puzzle _08/Dropper2/Controllers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, -8, 3 )
+
+[node name="Button" type="CSGCombiner" parent="Puzzle _08/Dropper2/Controllers/Control_Left"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.0170746, 0, -5.65298 )
+
+[node name="line" type="CSGBox" parent="Puzzle _08/Dropper2/Controllers/Control_Left/Button"]
+width = 1.0
+height = 0.1
+depth = 0.3
+
+[node name="triangle" type="CSGCylinder" parent="Puzzle _08/Dropper2/Controllers/Control_Left/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.746181, 0, 2.22379e-08 )
+radius = 0.5
+height = 0.1
+sides = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Dropper2/Controllers/Control_Left"]
+shape = SubResource( 89 )
+
+[node name="Control_Right" type="Area" parent="Puzzle _08/Dropper2/Controllers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, -8, -3 )
+
+[node name="Button" type="CSGCombiner" parent="Puzzle _08/Dropper2/Controllers/Control_Right"]
+transform = Transform( 1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -0.0170631, 0, 5.62305 )
+
+[node name="line" type="CSGBox" parent="Puzzle _08/Dropper2/Controllers/Control_Right/Button"]
+width = 1.0
+height = 0.1
+depth = 0.3
+
+[node name="triangle" type="CSGCylinder" parent="Puzzle _08/Dropper2/Controllers/Control_Right/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.746181, 0, 2.22379e-08 )
+radius = 0.5
+height = 0.1
+sides = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Dropper2/Controllers/Control_Right"]
+shape = SubResource( 89 )
+
+[node name="Control_Down" type="Area" parent="Puzzle _08/Dropper2/Controllers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, -8, -5.66244e-07 )
+
+[node name="Button" type="CSGCombiner" parent="Puzzle _08/Dropper2/Controllers/Control_Down"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.345395, 0, 1.02936e-08 )
+
+[node name="line" type="CSGBox" parent="Puzzle _08/Dropper2/Controllers/Control_Down/Button"]
+width = 1.0
+height = 0.1
+depth = 0.3
+
+[node name="triangle" type="CSGCylinder" parent="Puzzle _08/Dropper2/Controllers/Control_Down/Button"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.746181, 0, 2.22379e-08 )
+radius = 0.5
+height = 0.1
+sides = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Dropper2/Controllers/Control_Down"]
+shape = SubResource( 89 )
+
+[node name="Invis_Walls" type="StaticBody" parent="Puzzle _08/Dropper2"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Dropper2/Invis_Walls"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.65574, 3, -4.93447e-08 )
+shape = SubResource( 90 )
+
+[node name="CollisionShape2" type="CollisionShape" parent="Puzzle _08/Dropper2/Invis_Walls"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.58524, 3, 4.72439e-08 )
+shape = SubResource( 90 )
+
+[node name="Normalize" type="Area" parent="Puzzle _08/Dropper2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Dropper2/Normalize"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
+shape = SubResource( 8 )
+
+[node name="Finale" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51, 4, 60 )
+
+[node name="VOID" type="MeshInstance" parent="Finale"]
+transform = Transform( 4.37114e-08, 1, -8.74228e-08, 1, -4.37114e-08, 0, -3.82137e-15, -8.74228e-08, -1, -19.5, -0.5, -3.8147e-06 )
+generate_lightmap = false
+mesh = SubResource( 136 )
+material/0 = null
+
+[node name="OmniLight" type="OmniLight" parent="Finale/VOID"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.138085, 0 )
+light_energy = 10.0
+omni_range = 6.067
+
+[node name="Triggers" type="Spatial" parent="."]
+
+[node name="Trigger_Close" type="Area" parent="Triggers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 2, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Triggers/Trigger_Close"]
+shape = SubResource( 10 )
+
+[node name="Trigger_00_Complete" type="Area" parent="Triggers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 3, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Triggers/Trigger_00_Complete"]
+shape = SubResource( 29 )
+
+[node name="Trigger_01_Complete" type="Area" parent="Triggers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54, 4, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Triggers/Trigger_01_Complete"]
+shape = SubResource( 30 )
+
+[connection signal="body_entered" from="Button" to="System_Door" method="_on_Button_body_entered"]
+[connection signal="body_entered" from="Button2" to="Door_01" method="_on_Button2_body_entered"]
+[connection signal="body_exited" from="Button2" to="Door_01" method="_on_Button2_body_exited"]
+[connection signal="body_entered" from="Puzzle _01/Button3" to="Puzzle _01" method="_on_Button3_body_entered"]
+[connection signal="body_exited" from="Puzzle _01/Button3" to="Puzzle _01" method="_on_Button3_body_exited"]
+[connection signal="body_entered" from="Puzzle _02/Button3" to="Puzzle _02" method="_on_Button3_body_entered"]
+[connection signal="body_exited" from="Puzzle _02/Button3" to="Puzzle _02" method="_on_Button3_body_exited"]
+[connection signal="body_entered" from="Puzzle _03/Button3" to="Puzzle _03" method="_on_Button3_body_entered"]
+[connection signal="body_exited" from="Puzzle _03/Button3" to="Puzzle _03" method="_on_Button3_body_exited"]
+[connection signal="body_entered" from="Puzzle _04/Button3" to="Puzzle _04" method="_on_Button3_body_entered"]
+[connection signal="body_exited" from="Puzzle _04/Button3" to="Puzzle _04" method="_on_Button3_body_exited"]
+[connection signal="body_entered" from="Puzzle _05/Button3" to="Puzzle _05" method="_on_Button3_body_entered"]
+[connection signal="body_exited" from="Puzzle _05/Button3" to="Puzzle _05" method="_on_Button3_body_exited"]
+[connection signal="body_entered" from="Puzzle _05/Dropper/Controllers/Control_Up" to="Puzzle _05/Dropper" method="_on_Control_Up_body_entered"]
+[connection signal="body_entered" from="Puzzle _05/Dropper/Controllers/Control_Left" to="Puzzle _05/Dropper" method="_on_Control_Left_body_entered"]
+[connection signal="body_entered" from="Puzzle _05/Dropper/Controllers/Control_Right" to="Puzzle _05/Dropper" method="_on_Control_Right_body_entered"]
+[connection signal="body_entered" from="Puzzle _05/Dropper/Controllers/Control_Down" to="Puzzle _05/Dropper" method="_on_Control_Down_body_entered"]
+[connection signal="body_entered" from="Puzzle _05/Dropper/Normalize" to="Puzzle _05/Dropper" method="_on_Normalize_body_entered"]
+[connection signal="body_entered" from="Puzzle _06/Button3" to="Puzzle _06" method="_on_Button3_body_entered"]
+[connection signal="body_exited" from="Puzzle _06/Button3" to="Puzzle _06" method="_on_Button3_body_exited"]
+[connection signal="body_entered" from="Puzzle _06/Dropper/Controllers/Control_Up" to="Puzzle _06/Dropper" method="_on_Control_Up_body_entered"]
+[connection signal="body_entered" from="Puzzle _06/Dropper/Controllers/Control_Left" to="Puzzle _06/Dropper" method="_on_Control_Left_body_entered"]
+[connection signal="body_entered" from="Puzzle _06/Dropper/Controllers/Control_Right" to="Puzzle _06/Dropper" method="_on_Control_Right_body_entered"]
+[connection signal="body_entered" from="Puzzle _06/Dropper/Controllers/Control_Down" to="Puzzle _06/Dropper" method="_on_Control_Down_body_entered"]
+[connection signal="body_entered" from="Puzzle _06/Dropper/Normalize" to="Puzzle _06/Dropper" method="_on_Normalize_body_entered"]
+[connection signal="body_entered" from="Puzzle _07/Button3" to="Puzzle _07" method="_on_Button3_body_entered"]
+[connection signal="body_exited" from="Puzzle _07/Button3" to="Puzzle _07" method="_on_Button3_body_exited"]
+[connection signal="body_entered" from="Puzzle _07/Dropper/Controllers/Control_Up" to="Puzzle _07/Dropper" method="_on_Control_Up_body_entered"]
+[connection signal="body_entered" from="Puzzle _07/Dropper/Controllers/Control_Left" to="Puzzle _07/Dropper" method="_on_Control_Left_body_entered"]
+[connection signal="body_entered" from="Puzzle _07/Dropper/Controllers/Control_Right" to="Puzzle _07/Dropper" method="_on_Control_Right_body_entered"]
+[connection signal="body_entered" from="Puzzle _07/Dropper/Controllers/Control_Down" to="Puzzle _07/Dropper" method="_on_Control_Down_body_entered"]
+[connection signal="body_entered" from="Puzzle _07/Dropper/Normalize" to="Puzzle _07/Dropper" method="_on_Normalize_body_entered"]
+[connection signal="body_entered" from="Puzzle _08/Button3" to="Puzzle _08" method="_on_Button3_body_entered"]
+[connection signal="body_exited" from="Puzzle _08/Button3" to="Puzzle _08" method="_on_Button3_body_exited"]
+[connection signal="body_entered" from="Puzzle _08/Button4" to="Puzzle _08" method="_on_Button4_body_entered"]
+[connection signal="body_exited" from="Puzzle _08/Button4" to="Puzzle _08" method="_on_Button4_body_exited"]
+[connection signal="body_entered" from="Puzzle _08/Dropper/Controllers/Control_Up" to="Puzzle _08/Dropper" method="_on_Control_Up_body_entered"]
+[connection signal="body_entered" from="Puzzle _08/Dropper/Controllers/Control_Left" to="Puzzle _08/Dropper" method="_on_Control_Left_body_entered"]
+[connection signal="body_entered" from="Puzzle _08/Dropper/Controllers/Control_Right" to="Puzzle _08/Dropper" method="_on_Control_Right_body_entered"]
+[connection signal="body_entered" from="Puzzle _08/Dropper/Controllers/Control_Down" to="Puzzle _08/Dropper" method="_on_Control_Down_body_entered"]
+[connection signal="body_entered" from="Puzzle _08/Dropper/Normalize" to="Puzzle _08/Dropper" method="_on_Normalize_body_entered"]
+[connection signal="body_entered" from="Puzzle _08/Dropper2/Controllers/Control_Up" to="Puzzle _08/Dropper2" method="_on_Control_Up_body_entered"]
+[connection signal="body_entered" from="Puzzle _08/Dropper2/Controllers/Control_Left" to="Puzzle _08/Dropper2" method="_on_Control_Left_body_entered"]
+[connection signal="body_entered" from="Puzzle _08/Dropper2/Controllers/Control_Right" to="Puzzle _08/Dropper2" method="_on_Control_Right_body_entered"]
+[connection signal="body_entered" from="Puzzle _08/Dropper2/Controllers/Control_Down" to="Puzzle _08/Dropper2" method="_on_Control_Down_body_entered"]
+[connection signal="body_entered" from="Puzzle _08/Dropper2/Normalize" to="Puzzle _08/Dropper2" method="_on_Normalize_body_entered"]
+[connection signal="body_entered" from="Triggers/Trigger_Close" to="System_Door" method="_on_Trigger_Close_body_entered"]
+[connection signal="body_entered" from="Triggers/Trigger_00_Complete" to="Door_01" method="_on_Trigger_00_Complete_body_entered"]
+[connection signal="body_entered" from="Triggers/Trigger_01_Complete" to="AudioManager" method="_on_Trigger_01_Complete_body_entered"]
+[connection signal="body_entered" from="Triggers/Trigger_01_Complete" to="Puzzle _01" method="_on_Trigger_01_Complete_body_entered"]

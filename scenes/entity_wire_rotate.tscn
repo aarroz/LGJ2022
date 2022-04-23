@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://materials/puzzle_base.tres" type="Material" id=1]
+[ext_resource path="res://scripts/Wire_Rotate.gd" type="Script" id=2]
+
+[sub_resource type="CylinderMesh" id=19]
+top_radius = 0.2
+bottom_radius = 0.2
+radial_segments = 6
+
+[sub_resource type="CylinderMesh" id=21]
+material = ExtResource( 1 )
+height = 0.1
+
+[node name="Wire_Rotate" type="MeshInstance"]
+transform = Transform( 1.91069e-15, -4.37114e-08, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, -4.37114e-08, -6, -4, 7 )
+mesh = SubResource( 19 )
+material/0 = null
+script = ExtResource( 2 )
+
+[node name="Wire_Rotate_Plate" type="MeshInstance" parent="."]
+transform = Transform( -4.37114e-08, 1, -4.37114e-08, -1, -4.37114e-08, 4.37114e-08, 4.37114e-08, 4.37114e-08, 1, 0, 0, 0 )
+mesh = SubResource( 21 )
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

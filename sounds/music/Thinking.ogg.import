@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Thinking.ogg-b873343f110a217fcc6034a653a309a4.oggstr"
+
+[deps]
+
+source_file="res://sounds/music/Thinking.ogg"
+dest_files=[ "res://.import/Thinking.ogg-b873343f110a217fcc6034a653a309a4.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
