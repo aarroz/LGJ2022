@@ -1,4 +1,4 @@
-[gd_scene load_steps=158 format=2]
+[gd_scene load_steps=159 format=2]
 
 [ext_resource path="res://scenes/mesh_door.tres" type="CubeMesh" id=1]
 [ext_resource path="res://materials/wall_dark.tres" type="Material" id=2]
@@ -296,7 +296,7 @@ func _on_Button3_body_exited(body):
 		state = DOOR_STATE.CLOSE
 
 
-func _on_Trigger_01_Complete_body_entered(body):
+func _on_Trigger_02_Complete_body_entered(body):
 	if state == DOOR_STATE.OPEN:
 		$Door_02.close()
 		state = DOOR_STATE.CLOSE
@@ -403,6 +403,47 @@ tracks/0/keys = {
 
 [sub_resource type="SpatialMaterial" id=44]
 albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="GDScript" id=146]
+script/source = "extends \"res://scripts/entity_doorwall.gd\"
+
+enum DOOR_STATE {
+	OPEN
+	CLOSE
+}
+
+var state
+
+func _ready():
+	state = DOOR_STATE.CLOSE
+
+
+func _on_Button3_body_entered(body):
+	if state == DOOR_STATE.CLOSE and $Puzzle_Wire_Rotate.connected and $Puzzle_Wire_Rotate2.connected and body.is_in_group(\"dynamic\"):
+		$Door_02.open()
+		state = DOOR_STATE.OPEN
+	elif state == DOOR_STATE.CLOSE and body.is_in_group(\"dynamic\"):
+		pass
+	elif state == DOOR_STATE.OPEN:
+		pass
+
+
+func _on_Button3_body_exited(body):
+	if state == DOOR_STATE.CLOSE and $Puzzle_Wire_Rotate.connected and $Puzzle_Wire_Rotate2.connected:
+		pass
+	elif state == DOOR_STATE.CLOSE and body.is_in_group(\"dynamic\"):
+		pass
+	elif state == DOOR_STATE.OPEN:
+		$Door_02.close()
+		state = DOOR_STATE.CLOSE
+
+
+func _on_Trigger_03_Complete_body_entered(body):
+	if state == DOOR_STATE.OPEN:
+		$Door_02.close()
+		state = DOOR_STATE.CLOSE
+
+"
 
 [sub_resource type="CylinderMesh" id=54]
 top_radius = 0.2
@@ -574,7 +615,7 @@ func _on_Button3_body_exited(body):
 		state = DOOR_STATE.CLOSE
 
 
-func _on_Trigger_01_Complete_body_entered(body):
+func _on_Trigger_04_Complete_body_entered(body):
 	if state == DOOR_STATE.OPEN:
 		$Door_02.close()
 		state = DOOR_STATE.CLOSE
@@ -770,7 +811,13 @@ func _on_Button3_body_exited(body):
 		state = DOOR_STATE.CLOSE
 
 
-func _on_Trigger_01_Complete_body_entered(body):
+func _on_Trigger_04_Complete_body_entered(body):
+	if state == DOOR_STATE.OPEN:
+		$Door_02.close()
+		state = DOOR_STATE.CLOSE
+
+
+func _on_Trigger_05_Complete_body_entered(body):
 	if state == DOOR_STATE.OPEN:
 		$Door_02.close()
 		state = DOOR_STATE.CLOSE
@@ -976,6 +1023,12 @@ func _on_Button3_body_exited(body):
 
 
 func _on_Trigger_01_Complete_body_entered(body):
+	if state == DOOR_STATE.OPEN:
+		$Door_02.close()
+		state = DOOR_STATE.CLOSE
+
+
+func _on_Trigger_06_Complete_body_entered(body):
 	if state == DOOR_STATE.OPEN:
 		$Door_02.close()
 		state = DOOR_STATE.CLOSE
@@ -1220,6 +1273,12 @@ func _on_Button3_body_exited(body):
 
 
 func _on_Trigger_01_Complete_body_entered(body):
+	if state == DOOR_STATE.OPEN:
+		$Door_02.close()
+		state = DOOR_STATE.CLOSE
+
+
+func _on_Trigger_07_Complete_body_entered(body):
 	if state == DOOR_STATE.OPEN:
 		$Door_02.close()
 		state = DOOR_STATE.CLOSE
@@ -2292,7 +2351,7 @@ shape = SubResource( 17 )
 
 [node name="Puzzle _03" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 110, 4, 0 )
-script = SubResource( 41 )
+script = SubResource( 146 )
 
 [node name="Door_02" parent="Puzzle _03" instance=ExtResource( 4 )]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
@@ -4544,6 +4603,54 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 54, 4, 0 )
 [node name="CollisionShape" type="CollisionShape" parent="Triggers/Trigger_01_Complete"]
 shape = SubResource( 30 )
 
+[node name="Trigger_02_Complete" type="Area" parent="Triggers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 87, 4, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Triggers/Trigger_02_Complete"]
+shape = SubResource( 30 )
+
+[node name="Trigger_03_Complete" type="Area" parent="Triggers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 113, 4, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Triggers/Trigger_03_Complete"]
+shape = SubResource( 30 )
+
+[node name="Trigger_04_Complete" type="Area" parent="Triggers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 143, 4, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Triggers/Trigger_04_Complete"]
+shape = SubResource( 30 )
+
+[node name="Trigger_04_02_Dialogue" type="Area" parent="Triggers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 140, 4, 60 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Triggers/Trigger_04_02_Dialogue"]
+shape = SubResource( 30 )
+
+[node name="Trigger_05_Complete" type="Area" parent="Triggers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 104, 4, 60 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Triggers/Trigger_05_Complete"]
+shape = SubResource( 30 )
+
+[node name="Trigger_06_Complete" type="Area" parent="Triggers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 4, 60 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Triggers/Trigger_06_Complete"]
+shape = SubResource( 30 )
+
+[node name="Trigger_07_Complete" type="Area" parent="Triggers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 4, 60 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Triggers/Trigger_07_Complete"]
+shape = SubResource( 30 )
+
+[node name="Trigger_FINALE" type="Area" parent="Triggers"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 4, 60 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Triggers/Trigger_FINALE"]
+shape = SubResource( 30 )
+
 [connection signal="body_entered" from="Button" to="System_Door" method="_on_Button_body_entered"]
 [connection signal="body_entered" from="Button2" to="Door_01" method="_on_Button2_body_entered"]
 [connection signal="body_exited" from="Button2" to="Door_01" method="_on_Button2_body_exited"]
@@ -4594,3 +4701,11 @@ shape = SubResource( 30 )
 [connection signal="body_entered" from="Triggers/Trigger_00_Complete" to="Door_01" method="_on_Trigger_00_Complete_body_entered"]
 [connection signal="body_entered" from="Triggers/Trigger_01_Complete" to="AudioManager" method="_on_Trigger_01_Complete_body_entered"]
 [connection signal="body_entered" from="Triggers/Trigger_01_Complete" to="Puzzle _01" method="_on_Trigger_01_Complete_body_entered"]
+[connection signal="body_entered" from="Triggers/Trigger_02_Complete" to="Puzzle _02" method="_on_Trigger_02_Complete_body_entered"]
+[connection signal="body_entered" from="Triggers/Trigger_03_Complete" to="Puzzle _03" method="_on_Trigger_03_Complete_body_entered"]
+[connection signal="body_entered" from="Triggers/Trigger_04_Complete" to="Puzzle _04" method="_on_Trigger_04_Complete_body_entered"]
+[connection signal="body_entered" from="Triggers/Trigger_04_02_Dialogue" to="AudioManager" method="_on_Trigger_05_Complete_body_entered"]
+[connection signal="body_entered" from="Triggers/Trigger_05_Complete" to="Puzzle _05" method="_on_Trigger_05_Complete_body_entered"]
+[connection signal="body_entered" from="Triggers/Trigger_06_Complete" to="Puzzle _06" method="_on_Trigger_06_Complete_body_entered"]
+[connection signal="body_entered" from="Triggers/Trigger_07_Complete" to="Puzzle _07" method="_on_Trigger_07_Complete_body_entered"]
+[connection signal="body_entered" from="Triggers/Trigger_FINALE" to="AudioManager" method="_on_Trigger_FINALE_body_entered"]
