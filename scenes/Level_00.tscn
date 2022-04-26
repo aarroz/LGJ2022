@@ -2170,7 +2170,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
 shape = SubResource( 22 )
 
 [node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _01/Puzzle_Wire_Rotate"]
-transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5.4, 3.25, -5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
 radius = 0.3
 height = 0.2
 material = SubResource( 34 )
@@ -2300,7 +2300,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
 shape = SubResource( 22 )
 
 [node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _02/Puzzle_Wire_Rotate"]
-transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5.4, 3.25, -5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
 radius = 0.3
 height = 0.2
 material = SubResource( 43 )
@@ -2333,7 +2333,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
 shape = SubResource( 22 )
 
 [node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _02/Puzzle_Wire_Rotate2"]
-transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5.4, 3.25, 5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
 radius = 0.3
 height = 0.2
 material = SubResource( 44 )
@@ -2468,7 +2468,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
 shape = SubResource( 22 )
 
 [node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _03/Puzzle_Wire_Rotate"]
-transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5.4, 3.25, -5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
 radius = 0.3
 height = 0.2
 material = SubResource( 52 )
@@ -2501,7 +2501,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
 shape = SubResource( 22 )
 
 [node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _03/Puzzle_Wire_Rotate2"]
-transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5.4, 3.25, 5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
 radius = 0.3
 height = 0.2
 material = SubResource( 53 )
@@ -2648,7 +2648,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
 shape = SubResource( 22 )
 
 [node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _04/Puzzle_Wire_Rotate"]
-transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5.4, 3.25, -5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
 radius = 0.3
 height = 0.2
 material = SubResource( 70 )
@@ -2681,7 +2681,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
 shape = SubResource( 22 )
 
 [node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _04/Puzzle_Wire_Rotate2"]
-transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5.4, 3.25, 5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
 radius = 0.3
 height = 0.2
 material = SubResource( 71 )
@@ -2861,7 +2861,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
 shape = SubResource( 22 )
 
 [node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _05/Puzzle_Wire_Rotate"]
-transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5.4, 3.25, -5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
 radius = 0.3
 height = 0.2
 material = SubResource( 83 )
@@ -2894,7 +2894,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0 )
 shape = SubResource( 22 )
 
 [node name="Puzzle_01_Indicator_01" type="CSGCylinder" parent="Puzzle _05/Puzzle_Wire_Rotate2"]
-transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 5.4, 3.25, 5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0 )
 radius = 0.3
 height = 0.2
 material = SubResource( 84 )
