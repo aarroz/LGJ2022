@@ -11,5 +11,5 @@ dest_files=[ "res://.import/Thinking.ogg-b873343f110a217fcc6034a653a309a4.oggstr
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0

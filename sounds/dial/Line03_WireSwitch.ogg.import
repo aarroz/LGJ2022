@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Line03_WireSwitch.ogg-8edc7db24241e59b49927d6c10aa603c.oggstr"
+
+[deps]
+
+source_file="res://sounds/dial/Line03_WireSwitch.ogg"
+dest_files=[ "res://.import/Line03_WireSwitch.ogg-8edc7db24241e59b49927d6c10aa603c.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

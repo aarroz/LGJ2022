@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Line02_FirstPuzzle.ogg-5bb929f35491bd2bed6f165c7e4f4066.oggstr"
+
+[deps]
+
+source_file="res://sounds/dial/Line02_FirstPuzzle.ogg"
+dest_files=[ "res://.import/Line02_FirstPuzzle.ogg-5bb929f35491bd2bed6f165c7e4f4066.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

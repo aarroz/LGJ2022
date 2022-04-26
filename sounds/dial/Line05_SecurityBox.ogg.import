@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Line05_SecurityBox.ogg-aac4995942ead098c39588f58193e722.oggstr"
+
+[deps]
+
+source_file="res://sounds/dial/Line05_SecurityBox.ogg"
+dest_files=[ "res://.import/Line05_SecurityBox.ogg-aac4995942ead098c39588f58193e722.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

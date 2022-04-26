@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Line04_iMissThem.ogg-d8d6d8078c42372700e8cadcd9d8065c.oggstr"
+
+[deps]
+
+source_file="res://sounds/dial/Line04_iMissThem.ogg"
+dest_files=[ "res://.import/Line04_iMissThem.ogg-d8d6d8078c42372700e8cadcd9d8065c.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

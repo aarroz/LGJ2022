@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Line01_Intro.ogg-46f70f39a82eb20370e03db6c9cc435f.oggstr"
+
+[deps]
+
+source_file="res://sounds/dial/Line01_Intro.ogg"
+dest_files=[ "res://.import/Line01_Intro.ogg-46f70f39a82eb20370e03db6c9cc435f.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

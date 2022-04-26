@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Line08_SeasonedEmployee.ogg-bc485cd4996228ffd49b1972986eac97.oggstr"
+
+[deps]
+
+source_file="res://sounds/dial/Line08_SeasonedEmployee.ogg"
+dest_files=[ "res://.import/Line08_SeasonedEmployee.ogg-bc485cd4996228ffd49b1972986eac97.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
