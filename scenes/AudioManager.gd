@@ -11,6 +11,8 @@ const Line08_Seas = preload("res://sounds/dial/Line08_SeasonedEmployee.ogg")
 const Line09_Final = preload("res://sounds/dial/Line09_Finale.ogg")
 const Line10_Escape = preload("res://sounds/dial/Line10_Escape.ogg")
 
+const theme_song = preload("res://sounds/music/MainTheme.ogg")
+
 var line01_finished = false
 var line02_finished = false
 var line03_finished = false
@@ -99,3 +101,14 @@ func _on_Trigger_07_Complete_body_entered(body):
 		$Dial.set_stream(Line09_Final)
 		$Dial.play()
 		line09_finished = true
+
+
+
+func _on_Puzzle__08_game_over():
+	if not line10_finished:
+		$Dial.set_stream(Line10_Escape)
+		$Dial.play()
+		line10_finished = true
+		$Music.set_stream(theme_song)
+		$Music.play()
+		$Faders.play("fade_in")

@@ -1503,6 +1503,8 @@ var state
 var button_1
 var button_2
 
+signal game_over
+
 func _ready():
 	state = DOOR_STATE.CLOSE
 	button_1 = BUTTON1.DEACTIVE
@@ -1552,6 +1554,7 @@ func state_change():
 		state = DOOR_STATE.OPEN
 		$Door_02.open()
 		print(\"DONE\")
+		emit_signal(\"game_over\")
 	else:
 		print(\"failed\")
 "
@@ -4659,7 +4662,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 4, 60 )
 shape = SubResource( 30 )
 
 [node name="Trigger_FINALE" type="Area" parent="Triggers"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 4, 60 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -70, 4, 60 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Triggers/Trigger_FINALE"]
 shape = SubResource( 30 )
@@ -4696,6 +4699,7 @@ shape = SubResource( 30 )
 [connection signal="body_entered" from="Puzzle _07/Dropper/Controllers/Control_Right" to="Puzzle _07/Dropper" method="_on_Control_Right_body_entered"]
 [connection signal="body_entered" from="Puzzle _07/Dropper/Controllers/Control_Down" to="Puzzle _07/Dropper" method="_on_Control_Down_body_entered"]
 [connection signal="body_entered" from="Puzzle _07/Dropper/Normalize" to="Puzzle _07/Dropper" method="_on_Normalize_body_entered"]
+[connection signal="game_over" from="Puzzle _08" to="AudioManager" method="_on_Puzzle__08_game_over"]
 [connection signal="body_entered" from="Puzzle _08/Button3" to="Puzzle _08" method="_on_Button3_body_entered"]
 [connection signal="body_exited" from="Puzzle _08/Button3" to="Puzzle _08" method="_on_Button3_body_exited"]
 [connection signal="body_entered" from="Puzzle _08/Button4" to="Puzzle _08" method="_on_Button4_body_entered"]
