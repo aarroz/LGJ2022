@@ -81,7 +81,21 @@ func _on_Trigger_03_Complete_body_entered(body):
 
 
 func _on_Trigger_05_Complete_body_entered(body):
-	if body.is_in_group("dynamic") and not line06_finished:
-		$Dial.set_stream(Line06_Emplo)
+	if body.is_in_group("dynamic") and not line07_finished:
+		$Dial.set_stream(Line07_Bril)
 		$Dial.play()
-		line06_finished = true
+		line07_finished = true
+
+
+func _on_Trigger_06_Complete_body_entered(body):
+	if body.is_in_group("dynamic") and not line08_finished:
+		$Dial.set_stream(Line08_Seas)
+		$Dial.play()
+		line08_finished = true
+
+
+func _on_Trigger_07_Complete_body_entered(body):
+	if body.is_in_group("dynamic") and not line09_finished:
+		$Dial.set_stream(Line09_Final)
+		$Dial.play()
+		line09_finished = true
