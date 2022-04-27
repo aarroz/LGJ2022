@@ -3826,7 +3826,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0.856705 )
 operation = 2
 width = 3.90501
 height = 2.3
-depth = 16.0
+depth = 11.8944
 
 [node name="CSGBox2" type="CSGBox" parent="Puzzle _07/Dropper/Tower"]
 transform = Transform( 3.14005e-14, -1, -8.10134e-08, 1, 0, 1.53437e-07, -1.53437e-07, -8.10134e-08, 1, 0, -3.43935, 8.00002 )
