@@ -21,17 +21,18 @@ _global_script_class_icons={
 [application]
 
 config/name="LinuxGameJam2022"
-run/main_scene="res://scenes/Level_00.tscn"
+run/main_scene="res://scenes/Menu_Main.tscn"
 config/icon="res://icon.png"
 
-[debug]
+[autoload]
 
-settings/stdout/print_fps=true
+GlobalSettings="*res://scripts/global_settings.gd"
 
 [display]
 
 window/size/width=1280
 window/size/height=720
+window/vsync/use_vsync=false
 
 [physics]
 

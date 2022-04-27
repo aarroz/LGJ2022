@@ -1,8 +1,112 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://materials/wall_dark.tres" type="Material" id=1]
 [ext_resource path="res://scenes/mesh_door.tres" type="CubeMesh" id=2]
 [ext_resource path="res://sounds/music/MainTheme.ogg" type="AudioStream" id=3]
+[ext_resource path="res://fonts/OD_Bold_dynfont_48.tres" type="DynamicFontData" id=4]
+[ext_resource path="res://fonts/OpenDyslexic-Bold.otf" type="DynamicFontData" id=5]
+[ext_resource path="res://scenes/Settings.gd" type="Script" id=6]
+[ext_resource path="res://scripts/main_menu.gd" type="Script" id=7]
+
+[sub_resource type="Animation" id=12]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("3D BG/AudioStreamPlayer:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ -8.0 ]
+}
+
+[sub_resource type="Animation" id=13]
+resource_name = "music_fade_out"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("3D BG/AudioStreamPlayer:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -5.0, -50.0 ]
+}
+
+[sub_resource type="DynamicFont" id=6]
+size = 32
+font_data = ExtResource( 4 )
+
+[sub_resource type="Theme" id=7]
+default_font = SubResource( 6 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 30
+use_filter = true
+font_data = ExtResource( 5 )
+
+[sub_resource type="Theme" id=9]
+default_font = SubResource( 8 )
+
+[sub_resource type="Animation" id=10]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("CanvasLayer/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.0117647, 0.0117647, 0.0117647, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ColorRect:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.0117647, 0.0117647, 0.0117647, 0 ) ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "cam_fade_in"
+tracks/0/type = "value"
+tracks/0/path = NodePath("CanvasLayer/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 0,
+"values": [  ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ColorRect:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.0117647, 0.0117647, 0.0117647, 0 ), Color( 0.0117647, 0.0117647, 0.0117647, 1 ) ]
+}
 
 [sub_resource type="CubeMesh" id=1]
 material = ExtResource( 1 )
@@ -54,41 +158,142 @@ func _ready():
 
 [node name="Menu_Main" type="Node"]
 
-[node name="Menu" type="VBoxContainer" parent="."]
+[node name="Control" type="Control" parent="."]
+anchor_left = 0.5
 anchor_top = 0.5
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 0.5
-margin_top = -45.0
-margin_bottom = 45.0
+script = ExtResource( 7 )
 
-[node name="Label" type="Label" parent="Menu"]
-margin_right = 1280.0
-margin_bottom = 14.0
+[node name="music" type="AnimationPlayer" parent="Control"]
+root_node = NodePath("../..")
+anims/RESET = SubResource( 12 )
+anims/music_fade_out = SubResource( 13 )
+
+[node name="Menu" type="VBoxContainer" parent="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -301.0
+margin_top = -133.0
+margin_right = 301.0
+margin_bottom = 133.0
+theme = SubResource( 7 )
+
+[node name="Label" type="Label" parent="Control/Menu"]
+margin_right = 602.0
+margin_bottom = 59.0
 text = "Dorian's Door Emporium"
 align = 1
 
-[node name="Play" type="Button" parent="Menu"]
-margin_top = 18.0
-margin_right = 1280.0
-margin_bottom = 38.0
+[node name="Play" type="Button" parent="Control/Menu"]
+margin_left = 242.0
+margin_top = 63.0
+margin_right = 359.0
+margin_bottom = 128.0
+size_flags_horizontal = 4
 text = "Play"
+flat = true
 
-[node name="Options" type="Button" parent="Menu"]
-margin_top = 42.0
-margin_right = 1280.0
-margin_bottom = 62.0
+[node name="Options" type="Button" parent="Control/Menu"]
+margin_left = 199.0
+margin_top = 132.0
+margin_right = 402.0
+margin_bottom = 197.0
+size_flags_horizontal = 4
 text = "Options"
+flat = true
 
-[node name="Quit" type="Button" parent="Menu"]
-margin_top = 66.0
-margin_right = 1280.0
-margin_bottom = 86.0
+[node name="Quit" type="Button" parent="Control/Menu"]
+margin_left = 242.0
+margin_top = 201.0
+margin_right = 360.0
+margin_bottom = 266.0
+size_flags_horizontal = 4
 text = "Quit"
+flat = true
 
-[node name="Panel" type="Panel" parent="Menu"]
-margin_top = 90.0
-margin_right = 1280.0
-margin_bottom = 90.0
+[node name="Settings" type="Panel" parent="Control"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -550.0
+margin_top = -280.0
+margin_right = 570.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 1120, 580 )
+theme = SubResource( 9 )
+script = ExtResource( 6 )
+
+[node name="HSplitContainer" type="HSplitContainer" parent="Control/Settings"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Labels" type="VSplitContainer" parent="Control/Settings/HSplitContainer"]
+margin_right = 554.0
+margin_bottom = 580.0
+size_flags_horizontal = 3
+
+[node name="Fullscreen" type="Label" parent="Control/Settings/HSplitContainer/Labels"]
+margin_left = 159.0
+margin_top = 114.0
+margin_right = 395.0
+margin_bottom = 169.0
+size_flags_horizontal = 4
+size_flags_vertical = 6
+text = "Fullscreen"
+
+[node name="VSync" type="Label" parent="Control/Settings/HSplitContainer/Labels"]
+margin_left = 197.0
+margin_top = 410.0
+margin_right = 357.0
+margin_bottom = 465.0
+size_flags_horizontal = 4
+size_flags_vertical = 6
+text = "V-Sync"
+
+[node name="Buttons" type="VSplitContainer" parent="Control/Settings/HSplitContainer"]
+margin_left = 566.0
+margin_right = 1120.0
+margin_bottom = 580.0
+size_flags_horizontal = 3
+
+[node name="Button_Fullscreen" type="CheckButton" parent="Control/Settings/HSplitContainer/Buttons"]
+margin_left = 239.0
+margin_right = 315.0
+margin_bottom = 284.0
+size_flags_horizontal = 4
+size_flags_vertical = 3
+
+[node name="Button_Vsync" type="CheckButton" parent="Control/Settings/HSplitContainer/Buttons"]
+margin_left = 239.0
+margin_top = 296.0
+margin_right = 315.0
+margin_bottom = 580.0
+size_flags_horizontal = 4
+size_flags_vertical = 3
+
+[node name="Back" type="Button" parent="Control/Settings"]
+margin_left = 966.0
+margin_top = 487.0
+margin_right = 1083.0
+margin_bottom = 548.0
+text = "Back"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Control"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control/CanvasLayer"]
+anims/RESET = SubResource( 10 )
+anims/cam_fade_in = SubResource( 11 )
+
+[node name="ColorRect" type="ColorRect" parent="Control/CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.0117647, 0.0117647, 0.0117647, 0 )
 
 [node name="3D BG" type="Spatial" parent="."]
 
@@ -122,5 +327,12 @@ script = SubResource( 5 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="3D BG"]
 stream = ExtResource( 3 )
-volume_db = -5.0
+volume_db = -50.0
 autoplay = true
+
+[connection signal="pressed" from="Control/Menu/Play" to="Control" method="_on_Play_pressed"]
+[connection signal="pressed" from="Control/Menu/Options" to="Control" method="_on_Options_pressed"]
+[connection signal="pressed" from="Control/Menu/Quit" to="Control" method="_on_Quit_pressed"]
+[connection signal="toggled" from="Control/Settings/HSplitContainer/Buttons/Button_Fullscreen" to="Control/Settings" method="_on_Button_Fullscreen_toggled"]
+[connection signal="toggled" from="Control/Settings/HSplitContainer/Buttons/Button_Vsync" to="Control/Settings" method="_on_Button_Vsync_toggled"]
+[connection signal="pressed" from="Control/Settings/Back" to="Control" method="_on_Back_pressed"]

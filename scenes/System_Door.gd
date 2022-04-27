@@ -8,7 +8,7 @@ var dial_complete = false
 
 func _ready():
 	door_indic.material.set_albedo(Color(255, 0, 0, 0))
-	yield(get_tree().create_timer(23.0), "timeout")
+	yield(get_tree().create_timer(26.0), "timeout")
 	print("end")
 	door_indic.material.set_albedo(Color(0, 255, 0, 0))
 	dial_complete = true

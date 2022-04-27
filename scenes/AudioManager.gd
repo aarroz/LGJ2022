@@ -26,6 +26,7 @@ var line10_finished = false
 
 func _ready():
 	$Faders.play("fade_out")
+	yield(get_tree().create_timer(3.0), "timeout")
 	$Dial.set_stream(Line01_Intro)
 	$Dial.play()
 
@@ -112,3 +113,5 @@ func _on_Puzzle__08_game_over():
 		$Music.set_stream(theme_song)
 		$Music.play()
 		$Faders.play("fade_in")
+		yield(get_tree().create_timer(28.0), "timeout")
+		$CanvasLayer/ColorRect.show()

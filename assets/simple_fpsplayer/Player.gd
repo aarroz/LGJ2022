@@ -24,10 +24,13 @@ var is_sprinting = false
 
 var flashlight
 
+onready var transition = $CanvasLayer/AnimationPlayer
+
 func _ready():
 	camera = $rotation_helper/Camera
 	rotation_helper = $rotation_helper
 	flashlight = $rotation_helper/Flashlight
+	transition.play_backwards("cam_fade_in")
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -67,9 +70,12 @@ func process_input(delta):
 			vel.y = JUMP_SPEED
 	# ----------------------------------
 
+	if Input.is_key_pressed(KEY_Q) or Input.is_key_pressed(KEY_ESCAPE):
+		get_tree().change_scene("res://scenes/Menu_Main.tscn")
+
 	# ----------------------------------
 	# Capturing/Freeing the cursor
-	if Input.is_action_just_pressed("ui_cancel"):
+	if Input.is_key_pressed(KEY_PERIOD):
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		else:
