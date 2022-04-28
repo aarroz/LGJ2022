@@ -1,4 +1,4 @@
-[gd_scene load_steps=164 format=2]
+[gd_scene load_steps=165 format=2]
 
 [ext_resource path="res://scenes/mesh_door.tres" type="CubeMesh" id=1]
 [ext_resource path="res://materials/wall_dark.tres" type="Material" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://materials/kenney_prototype_textures/orange/texture_10.png" type="Texture" id=17]
 [ext_resource path="res://sounds/dial/Line01_Intro.ogg" type="AudioStream" id=18]
 [ext_resource path="res://sounds/door_open.ogg" type="AudioStream" id=19]
+[ext_resource path="res://scenes/Crate.tscn" type="PackedScene" id=20]
 
 [sub_resource type="Animation" id=31]
 length = 0.001
@@ -1821,6 +1822,7 @@ bus = "Dial"
 [node name="CanvasLayer" type="CanvasLayer" parent="AudioManager"]
 
 [node name="ColorRect" type="ColorRect" parent="AudioManager/CanvasLayer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -4701,6 +4703,260 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -70, 4, 60 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Triggers/Trigger_FINALE"]
 shape = SubResource( 30 )
+
+[node name="Props" type="Spatial" parent="."]
+
+[node name="Crate" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 165, 1, 3 )
+
+[node name="Crate2" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 165, 4, 3 )
+
+[node name="Crate3" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 165, 1, -3 )
+
+[node name="Crate4" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 165, 4, -3 )
+
+[node name="Crate5" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 170, 1, 3 )
+
+[node name="Crate6" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 170, 4, 3 )
+
+[node name="Crate7" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 170, 1, -3 )
+
+[node name="Crate8" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 170, 4, -3 )
+
+[node name="Crate9" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 1, 6 )
+
+[node name="Crate10" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 4, 6 )
+
+[node name="Crate11" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 1, 0 )
+
+[node name="Crate12" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 4, 0 )
+
+[node name="Crate13" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 1, 18 )
+
+[node name="Crate14" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 175.173, 4, 18 )
+
+[node name="Crate15" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 1, 12 )
+
+[node name="Crate16" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 4, 12 )
+
+[node name="Crate17" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 1, 15 )
+
+[node name="Crate18" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 4, 16.4899 )
+
+[node name="Crate19" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 1, 9 )
+
+[node name="Crate20" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 172.045, 4, 9 )
+
+[node name="Crate21" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 1, 27 )
+
+[node name="Crate22" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 4, 28.4899 )
+
+[node name="Crate23" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 1, 21 )
+
+[node name="Crate24" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171.559, 4, 22.271 )
+
+[node name="Crate25" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 1, 30 )
+
+[node name="Crate26" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 175.173, 4, 30 )
+
+[node name="Crate27" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 1, 24 )
+
+[node name="Crate28" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 4, 25.4899 )
+
+[node name="Crate29" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 1, 42 )
+
+[node name="Crate30" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 4, 43.4899 )
+
+[node name="Crate31" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 1, 36 )
+
+[node name="Crate32" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 175.173, 4, 36 )
+
+[node name="Crate33" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 1, 39 )
+
+[node name="Crate34" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 4, 39 )
+
+[node name="Crate35" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 1, 33 )
+
+[node name="Crate36" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 4, 34.4899 )
+
+[node name="Crate37" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 1, 51 )
+
+[node name="Crate38" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 4, 51 )
+
+[node name="Crate39" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 1, 45 )
+
+[node name="Crate40" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 4, 45 )
+
+[node name="Crate41" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 1, 54 )
+
+[node name="Crate42" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 4, 54 )
+
+[node name="Crate43" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 1, 48 )
+
+[node name="Crate44" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 175.949, 4, 46.6843 )
+
+[node name="Crate45" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 1, 57 )
+
+[node name="Crate46" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 4, 58.6351 )
+
+[node name="Crate47" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 174, 1, 63 )
+
+[node name="Crate48" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 174, 4, 63 )
+
+[node name="Crate49" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 167, 1, 63 )
+
+[node name="Crate50" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 167, 4, 63 )
+
+[node name="Crate51" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 161, 1, 63 )
+
+[node name="Crate52" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 161, 4, 63 )
+
+[node name="Crate53" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 164, 1, 57 )
+
+[node name="Crate54" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 164, 4, 57 )
+
+[node name="Crate55" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 156, 1, 57 )
+
+[node name="Crate56" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 156, 4, 57 )
+
+[node name="Crate57" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 165, 7, 3 )
+
+[node name="Crate58" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 165, 7, -3 )
+
+[node name="Crate59" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 170, 7, 3 )
+
+[node name="Crate60" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 170, 7, -3 )
+
+[node name="Crate61" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 175.802, 7, 6 )
+
+[node name="Crate62" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 7, 0 )
+
+[node name="Crate63" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 7, 18 )
+
+[node name="Crate64" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 7, 12 )
+
+[node name="Crate65" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 7, 15 )
+
+[node name="Crate66" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 173.493, 7, 9 )
+
+[node name="Crate67" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 7, 27 )
+
+[node name="Crate68" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 7, 21 )
+
+[node name="Crate69" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 7, 30 )
+
+[node name="Crate70" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 7, 24 )
+
+[node name="Crate71" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 7, 42 )
+
+[node name="Crate72" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 7, 36 )
+
+[node name="Crate73" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 7, 39 )
+
+[node name="Crate74" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 7, 33 )
+
+[node name="Crate75" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 7, 51 )
+
+[node name="Crate76" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171, 7, 45 )
+
+[node name="Crate77" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 7, 54 )
+
+[node name="Crate78" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 177, 7, 48 )
+
+[node name="Crate79" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 171.953, 7, 57 )
+
+[node name="Crate80" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 172.522, 7, 63 )
+
+[node name="Crate81" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 167, 7, 62.2739 )
+
+[node name="Crate82" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 161, 7, 63 )
+
+[node name="Crate83" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 164, 7, 57 )
+
+[node name="Crate84" parent="Props" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 156, 7, 57 )
 
 [connection signal="body_entered" from="Button" to="System_Door" method="_on_Button_body_entered"]
 [connection signal="body_entered" from="Button2" to="Door_01" method="_on_Button2_body_entered"]

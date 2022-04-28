@@ -327,7 +327,7 @@ script = SubResource( 5 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="3D BG"]
 stream = ExtResource( 3 )
-volume_db = -50.0
+volume_db = -8.0
 autoplay = true
 
 [connection signal="pressed" from="Control/Menu/Play" to="Control" method="_on_Play_pressed"]

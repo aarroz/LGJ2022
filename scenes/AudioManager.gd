@@ -25,6 +25,7 @@ var line09_finished = false
 var line10_finished = false
 
 func _ready():
+	$CanvasLayer/ColorRect.hide()
 	$Faders.play("fade_out")
 	yield(get_tree().create_timer(3.0), "timeout")
 	$Dial.set_stream(Line01_Intro)
