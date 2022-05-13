@@ -8,9 +8,9 @@ func _input(event):
 	if is_colliding() and collider is Interactable:
 		if current_collider != collider:
 			current_collider = collider
-		
-		if Input.is_key_pressed(KEY_E):
-			collider.interact()
+		if event is InputEventKey:
+			if event.pressed and event.scancode == KEY_E and not event.echo:
+				collider.interact()
 	elif current_collider:
 		current_collider = null
 		

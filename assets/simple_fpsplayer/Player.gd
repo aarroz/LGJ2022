@@ -116,9 +116,10 @@ func _input(event):
 
 # ----------------------------------
 # Turning the flashlight on/off
-	if Input.is_key_pressed(KEY_F):
-		if flashlight.is_visible_in_tree():
-			flashlight.hide()
-		else:
-			flashlight.show()
+	if event is InputEventKey:
+		if event.pressed and event.scancode == KEY_F:
+			if flashlight.is_visible_in_tree() and not event.echo:
+				flashlight.hide()
+			elif not event.echo:
+				flashlight.show()
 # ----------------------------------
