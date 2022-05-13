@@ -1571,8 +1571,9 @@ func state_change():
 		$Door_02.open()
 		print(\"DONE\")
 		emit_signal(\"game_over\")
-	else:
+	elif state == DOOR_STATE.OPEN:
 		print(\"failed\")
+		state = DOOR_STATE.CLOSE
 "
 
 [sub_resource type="GDScript" id=145]
