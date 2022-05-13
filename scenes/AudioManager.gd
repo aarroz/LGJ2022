@@ -46,10 +46,11 @@ func _on_Trigger_04_02_Dialogue_body_entered(body):
 	if body.is_in_group("dynamic") and not line06_finished:
 		$Dial.set_stream(Line06_Emplo)
 		$Dial.play()
+		line06_finished = true
 		yield(get_tree().create_timer(16.0), "timeout")
 		$Music.play()
 		$Faders.play("fade_in")
-		line06_finished = true
+
 
 func _on_Trigger_FINALE_body_entered(body):
 	if body.is_in_group("dynamic") and not line09_finished:
