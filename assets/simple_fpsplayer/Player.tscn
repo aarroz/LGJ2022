@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/simple_fpsplayer/Player.gd" type="Script" id=1]
 [ext_resource path="res://scripts/ability_grab.gd" type="Script" id=2]
 [ext_resource path="res://scripts/Interaction.gd" type="Script" id=3]
+[ext_resource path="res://materials/hand_crosshair.png" type="Texture" id=4]
 
 [sub_resource type="CapsuleShape" id=1]
 height = 2.0
@@ -78,6 +79,15 @@ keep_aspect = 0
 doppler_tracking = 2
 current = true
 fov = 90.0
+
+[node name="indict" type="Sprite3D" parent="rotation_helper/Camera"]
+transform = Transform( 0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 3.25841e-07, 0, -1 )
+visible = false
+layers = 2
+cast_shadow = 0
+double_sided = false
+alpha_cut = 2
+texture = ExtResource( 4 )
 
 [node name="Flashlight" type="SpotLight" parent="rotation_helper"]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )

@@ -15,6 +15,9 @@ const MAX_SLOPE_ANGLE = 40
 
 var camera
 var rotation_helper
+var indicator
+var physics_ray
+var interact_ray
 
 var MOUSE_SENSITIVITY = 0.05
 
@@ -31,6 +34,9 @@ func _ready():
 	rotation_helper = $rotation_helper
 	flashlight = $rotation_helper/Flashlight
 	transition.play_backwards("cam_fade_in")
+	indicator = $rotation_helper/Camera/indict
+	physics_ray = $rotation_helper/Grab
+	interact_ray = $rotation_helper/InteractionRayCast
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -40,6 +46,13 @@ func _physics_process(delta):
 	process_movement(delta)
 
 func process_input(delta):
+
+	if interact_ray.get_collider() is Interactable:
+		indicator.show()
+	elif physics_ray.get_collider() is RigidBody:
+		indicator.show()
+	else:
+		indicator.hide()
 
 	# ----------------------------------
 	# Walking
