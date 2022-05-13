@@ -1937,8 +1937,8 @@ depth = 8.0
 [node name="level_07to08_hall" type="CSGBox" parent="Level_00_Map"]
 transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 46, 4, 60 )
 invert_faces = true
-width = 20.4252
-height = 8.05
+width = 20.0
+height = 8.0
 depth = 8.0
 
 [node name="level_08toFINALE_hall" type="CSGBox" parent="Level_00_Map"]
