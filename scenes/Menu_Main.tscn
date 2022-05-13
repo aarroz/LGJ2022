@@ -225,47 +225,50 @@ script = ExtResource( 6 )
 [node name="HSplitContainer" type="HSplitContainer" parent="Control/Settings"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+dragger_visibility = 2
 
 [node name="Labels" type="VSplitContainer" parent="Control/Settings/HSplitContainer"]
-margin_right = 554.0
+margin_right = 560.0
 margin_bottom = 580.0
 size_flags_horizontal = 3
+dragger_visibility = 2
 
 [node name="Fullscreen" type="Label" parent="Control/Settings/HSplitContainer/Labels"]
-margin_left = 159.0
-margin_top = 114.0
-margin_right = 395.0
-margin_bottom = 169.0
+margin_left = 162.0
+margin_top = 117.0
+margin_right = 398.0
+margin_bottom = 172.0
 size_flags_horizontal = 4
 size_flags_vertical = 6
 text = "Fullscreen"
 
 [node name="VSync" type="Label" parent="Control/Settings/HSplitContainer/Labels"]
-margin_left = 197.0
-margin_top = 410.0
-margin_right = 357.0
-margin_bottom = 465.0
+margin_left = 200.0
+margin_top = 407.0
+margin_right = 360.0
+margin_bottom = 462.0
 size_flags_horizontal = 4
 size_flags_vertical = 6
 text = "V-Sync"
 
 [node name="Buttons" type="VSplitContainer" parent="Control/Settings/HSplitContainer"]
-margin_left = 566.0
+margin_left = 560.0
 margin_right = 1120.0
 margin_bottom = 580.0
 size_flags_horizontal = 3
+dragger_visibility = 2
 
 [node name="Button_Fullscreen" type="CheckButton" parent="Control/Settings/HSplitContainer/Buttons"]
-margin_left = 239.0
-margin_right = 315.0
-margin_bottom = 284.0
+margin_left = 242.0
+margin_right = 318.0
+margin_bottom = 290.0
 size_flags_horizontal = 4
 size_flags_vertical = 3
 
 [node name="Button_Vsync" type="CheckButton" parent="Control/Settings/HSplitContainer/Buttons"]
-margin_left = 239.0
-margin_top = 296.0
-margin_right = 315.0
+margin_left = 242.0
+margin_top = 290.0
+margin_right = 318.0
 margin_bottom = 580.0
 size_flags_horizontal = 4
 size_flags_vertical = 3
