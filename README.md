@@ -1,4 +1,4 @@
-# LGJ2022
+# Dorian's Door Emporium
 
 My entry for the [2022 Linux Game Jam](https://itch.io/jam/linux-game-jam-2022/results).
 
