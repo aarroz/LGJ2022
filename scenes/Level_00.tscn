@@ -1,4 +1,4 @@
-[gd_scene load_steps=165 format=2]
+[gd_scene load_steps=169 format=2]
 
 [ext_resource path="res://scenes/mesh_door.tres" type="CubeMesh" id=1]
 [ext_resource path="res://materials/wall_dark.tres" type="Material" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://sounds/dial/Line01_Intro.ogg" type="AudioStream" id=18]
 [ext_resource path="res://sounds/door_open.ogg" type="AudioStream" id=19]
 [ext_resource path="res://scenes/Crate.tscn" type="PackedScene" id=20]
+[ext_resource path="res://materials/barrier_material.tres" type="Material" id=21]
 
 [sub_resource type="Animation" id=31]
 length = 0.001
@@ -1001,6 +1002,13 @@ extents = Vector3( 0.001, 6, 10 )
 [sub_resource type="BoxShape" id=8]
 extents = Vector3( 2, 1, 1 )
 
+[sub_resource type="QuadMesh" id=151]
+material = ExtResource( 21 )
+size = Vector2( 20, 2 )
+
+[sub_resource type="BoxShape" id=152]
+extents = Vector3( 0.05, 1, 10 )
+
 [sub_resource type="GDScript" id=91]
 script/source = "extends \"res://scripts/entity_doorwall.gd\"
 
@@ -1790,6 +1798,8 @@ flags_unshaded = true
 [sub_resource type="PlaneMesh" id=136]
 material = SubResource( 27 )
 size = Vector2( 10, 20 )
+
+[sub_resource type="BoxShape" id=150]
 
 [sub_resource type="BoxShape" id=10]
 extents = Vector3( 1, 1, 4 )
@@ -2988,6 +2998,9 @@ material = SubResource( 85 )
 [node name="Dropper" type="Spatial" parent="Puzzle _05"]
 transform = Transform( -1.17225e-07, 0, 1, 0, 1, 0, -1, 0, -1.17225e-07, -16, 4, -28 )
 script = ExtResource( 16 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Tower" type="CSGCombiner" parent="Puzzle _05/Dropper"]
 material_override = SubResource( 86 )
@@ -3027,12 +3040,15 @@ height = 4.03528
 depth = 2.43057
 
 [node name="Dropper_Box" type="RigidBody" parent="Puzzle _05/Dropper" groups=["dynamic"]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, 6.99999 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 6.99999 )
 continuous_cd = true
 can_sleep = false
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="MeshInstance" type="MeshInstance" parent="Puzzle _05/Dropper/Dropper_Box"]
 mesh = SubResource( 3 )
@@ -3146,6 +3162,17 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 8 )
 [node name="CollisionShape" type="CollisionShape" parent="Puzzle _05/Dropper/Normalize"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 shape = SubResource( 8 )
+
+[node name="barrier" type="StaticBody" parent="Puzzle _05/Dropper"]
+transform = Transform( -4.37113e-08, -1, -2.04648e-07, 1, -4.37114e-08, 2.04648e-07, -2.04648e-07, -2.04648e-07, 1, 0, 8, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Puzzle _05/Dropper/barrier"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 7.62939e-06 )
+mesh = SubResource( 151 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _05/Dropper/barrier"]
+shape = SubResource( 152 )
 
 [node name="Puzzle _06" type="Spatial" parent="."]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 55.5, 4, 60 )
@@ -3450,12 +3477,15 @@ height = 4.03528
 depth = 2.43057
 
 [node name="Dropper_Box" type="RigidBody" parent="Puzzle _06/Dropper" groups=["dynamic"]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, 6.99999 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 6.99999 )
 continuous_cd = true
 can_sleep = false
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="MeshInstance" type="MeshInstance" parent="Puzzle _06/Dropper/Dropper_Box"]
 mesh = SubResource( 3 )
@@ -3569,6 +3599,17 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 8 )
 [node name="CollisionShape" type="CollisionShape" parent="Puzzle _06/Dropper/Normalize"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 shape = SubResource( 8 )
+
+[node name="barrier" type="StaticBody" parent="Puzzle _06/Dropper"]
+transform = Transform( -4.37113e-08, -1, -2.04648e-07, 1, -4.37114e-08, 2.04648e-07, -2.04648e-07, -2.04648e-07, 1, 0, 8, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Puzzle _06/Dropper/barrier"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 7.62939e-06 )
+mesh = SubResource( 151 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _06/Dropper/barrier"]
+shape = SubResource( 152 )
 
 [node name="Puzzle _07" type="Spatial" parent="."]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.5, 4, 60 )
@@ -3873,12 +3914,15 @@ height = 4.03528
 depth = 2.43057
 
 [node name="Dropper_Box" type="RigidBody" parent="Puzzle _07/Dropper" groups=["dynamic"]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, 6.99999 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 6.99999 )
 continuous_cd = true
 can_sleep = false
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="MeshInstance" type="MeshInstance" parent="Puzzle _07/Dropper/Dropper_Box"]
 mesh = SubResource( 3 )
@@ -3992,6 +4036,17 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 8 )
 [node name="CollisionShape" type="CollisionShape" parent="Puzzle _07/Dropper/Normalize"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 shape = SubResource( 8 )
+
+[node name="barrier" type="StaticBody" parent="Puzzle _07/Dropper"]
+transform = Transform( -4.37113e-08, -1, -2.04648e-07, 1, -4.37114e-08, 2.04648e-07, -2.04648e-07, -2.04648e-07, 1, 0, 8, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Puzzle _07/Dropper/barrier"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 7.62939e-06 )
+mesh = SubResource( 151 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _07/Dropper/barrier"]
+shape = SubResource( 152 )
 
 [node name="Puzzle _08" type="Spatial" parent="."]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -68.5, 4, 60 )
@@ -4319,12 +4374,15 @@ height = 4.03528
 depth = 2.43057
 
 [node name="Dropper_Box" type="RigidBody" parent="Puzzle _08/Dropper" groups=["dynamic"]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, 6.99999 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52588e-05, 7, 6.99999 )
 continuous_cd = true
 can_sleep = false
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="MeshInstance" type="MeshInstance" parent="Puzzle _08/Dropper/Dropper_Box"]
 mesh = SubResource( 3 )
@@ -4439,6 +4497,17 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 8 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 shape = SubResource( 8 )
 
+[node name="barrier" type="StaticBody" parent="Puzzle _08/Dropper"]
+transform = Transform( -4.37113e-08, -1, -2.04648e-07, 1, -4.37114e-08, 2.04648e-07, -2.04648e-07, -2.04648e-07, 1, 0, 8, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Puzzle _08/Dropper/barrier"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 7.62939e-06 )
+mesh = SubResource( 151 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Dropper/barrier"]
+shape = SubResource( 152 )
+
 [node name="Dropper2" type="Spatial" parent="Puzzle _08"]
 transform = Transform( 2.04648e-07, 0, -1, 0, 1, 0, 1, 0, 2.04648e-07, -16, 4, 36 )
 script = ExtResource( 16 )
@@ -4502,12 +4571,15 @@ height = 4.03528
 depth = 2.43057
 
 [node name="Dropper_Box" type="RigidBody" parent="Puzzle _08/Dropper2" groups=["dynamic"]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, 6.99999 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 6.99999 )
 continuous_cd = true
 can_sleep = false
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="MeshInstance" type="MeshInstance" parent="Puzzle _08/Dropper2/Dropper_Box"]
 mesh = SubResource( 3 )
@@ -4622,6 +4694,17 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 8 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 shape = SubResource( 8 )
 
+[node name="barrier" type="StaticBody" parent="Puzzle _08/Dropper2"]
+transform = Transform( -4.37113e-08, -1, -2.04648e-07, 1, -4.37114e-08, 2.04648e-07, -2.04648e-07, -2.04648e-07, 1, 0, 8, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Puzzle _08/Dropper2/barrier"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 7.62939e-06 )
+mesh = SubResource( 151 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Puzzle _08/Dropper2/barrier"]
+shape = SubResource( 152 )
+
 [node name="Finale" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -51, 4, 60 )
 
@@ -4635,6 +4718,12 @@ material/0 = null
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.138085, 0 )
 light_energy = 10.0
 omni_range = 6.067
+
+[node name="StaticBody" type="StaticBody" parent="Finale"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, -1, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Finale/StaticBody"]
+shape = SubResource( 150 )
 
 [node name="Triggers" type="Spatial" parent="."]
 
